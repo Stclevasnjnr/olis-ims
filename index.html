@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OLIS IMS — Inventory Management System</title>
+<style>
+/* ── RESET ─────────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --orange:#E8650A;
+  --orange-dark:#C4540A;
+  --orange-light:#FEF0E6;
+  --orange-mid:#FAD9C0;
+  --white:#FFFFFF;
+  --gray-bg:#FBF8F5;
+  --gray-border:#F0E8DF;
+  --gray-text:#6B6560;
+  --gray-muted:#B0A89F;
+  --dark:#2C2520;
+}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--gray-bg);color:var(--dark);min-height:100vh}
+.page{display:none;min-height:100vh}
+.page.active{display:block}
+
+/* ── LOGIN ─────────────────────────────────── */
+.login-bg{background:var(--orange);min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:2rem 1rem}
+.login-card{background:var(--white);border-radius:16px;padding:2.25rem;width:100%;max-width:390px;box-shadow:0 8px 40px rgba(0,0,0,0.18)}
+.brand-row{display:flex;align-items:center;gap:12px;margin-bottom:1.75rem;justify-content:center}
+.brand-badge{width:50px;height:50px;border-radius:12px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:26px}
+.brand-name{font-size:22px;font-weight:700;color:var(--dark)}
+.brand-sub{font-size:12px;color:var(--gray-text);letter-spacing:.04em}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:12px;color:var(--gray-text);font-weight:600;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
+.inp-wrap{position:relative}
+.inp-wrap span{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:17px;pointer-events:none}
+.inp-wrap input{width:100%;padding:10px 10px 10px 38px;border:1.5px solid var(--gray-border);border-radius:9px;font-size:14px;background:var(--white);color:var(--dark);outline:none;transition:border-color .15s}
+.inp-wrap input:focus{border-color:var(--orange)}
+.main-btn{width:100%;background:var(--orange);border:none;color:var(--white);border-radius:9px;padding:11px 14px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;font-weight:600;margin-top:4px;transition:background .15s}
+.main-btn:hover{background:var(--orange-dark)}
+.main-btn:disabled{background:#ccc;cursor:not-allowed}
+.link-btn{background:none;border:none;color:var(--orange);font-size:12px;cursor:pointer;padding:0;text-decoration:underline}
+.link-btn:hover{color:var(--orange-dark)}
+.err-box{background:#fff0f0;color:#b91c1c;border:1.5px solid #fca5a5;border-radius:9px;padding:10px 13px;font-size:13px;margin-bottom:12px;display:none;align-items:center;gap:7px}
+.err-box.show{display:flex}
+.ok-box{background:#f0fdf4;color:#166534;border:1.5px solid #86efac;border-radius:9px;padding:10px 13px;font-size:13px;margin-bottom:12px;display:none;align-items:center;gap:7px}
+.ok-box.show{display:flex}
+.divider{border:none;border-top:1.5px solid var(--gray-border);margin:1.1rem 0}
+.hint{font-size:11px;color:var(--gray-muted);text-align:center;margin-top:.75rem}
+.role-pills{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.role-pill{font-size:11px;padding:4px 13px;border-radius:100px;cursor:pointer;border:1.5px solid var(--orange-mid);color:var(--orange-dark);background:var(--orange-light);font-weight:500}
+.role-pill:hover{background:var(--orange-mid)}
+
+/* ── APP SHELL ─────────────────────────────── */
+.app-wrap{max-width:1120px;margin:0 auto;padding:1rem 1.25rem}
+.topbar{display:flex;align-items:center;justify-content:space-between;background:var(--orange);border-radius:14px;padding:12px 20px;margin-bottom:1.25rem;flex-wrap:wrap;gap:10px}
+.logo{display:flex;align-items:center;gap:11px}
+.logo-badge{width:38px;height:38px;border-radius:9px;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:20px}
+.logo-title{font-size:17px;font-weight:700;color:var(--white)}
+.logo-sub{font-size:11px;color:rgba(255,255,255,0.85)}
+.topbar-right{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.user-chip{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,0.18);border:1.5px solid rgba(255,255,255,0.35);border-radius:100px;padding:5px 13px 5px 5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--white);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--orange)}
+.user-name{font-size:13px;font-weight:600;color:var(--white)}
+.user-role-lbl{font-size:10px;color:rgba(255,255,255,0.85)}
+.logout-btn{border:1.5px solid rgba(255,255,255,0.45);background:transparent;border-radius:9px;padding:6px 13px;font-size:13px;cursor:pointer;color:var(--white);display:inline-flex;align-items:center;gap:5px;font-weight:500}
+.logout-btn:hover{background:rgba(255,255,255,0.18)}
+
+/* ── NAV ───────────────────────────────────── */
+.nav{display:flex;gap:4px;background:var(--white);border:1.5px solid var(--gray-border);border-radius:12px;padding:4px;flex-wrap:wrap;margin-bottom:1.25rem}
+.nav-btn{border:none;background:transparent;padding:8px 15px;border-radius:8px;font-size:13px;cursor:pointer;color:var(--gray-text);white-space:nowrap;font-weight:500}
+.nav-btn.active{background:var(--orange);color:var(--white);font-weight:600}
+.nav-btn:disabled{opacity:.4;cursor:not-allowed}
+.section{display:none}
+.section.active{display:block}
+
+/* ── METRICS ───────────────────────────────── */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px;margin-bottom:1.25rem}
+.metric{background:var(--white);border-radius:12px;padding:1.1rem;border:1.5px solid var(--gray-border)}
+.metric-icon{font-size:22px;margin-bottom:8px}
+.metric-label{font-size:12px;color:var(--gray-text);margin-bottom:5px;font-weight:500}
+.metric-value{font-size:28px;font-weight:700;color:var(--dark)}
+.metric-sub{font-size:11px;color:var(--gray-muted);margin-top:2px}
+
+/* ── CARD ──────────────────────────────────── */
+.card{background:var(--white);border:1.5px solid var(--gray-border);border-radius:13px;padding:1.1rem 1.35rem;margin-bottom:1rem}
+.card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
+.card-title{font-size:14px;font-weight:600;color:var(--dark);display:flex;align-items:center;gap:8px}
+.orange-dot{width:10px;height:10px;border-radius:50%;background:var(--orange);flex-shrink:0}
+
+/* ── TABLE ─────────────────────────────────── */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:10px 11px;color:var(--gray-text);font-weight:600;border-bottom:1.5px solid var(--gray-border);white-space:nowrap;background:var(--orange-light)}
+td{padding:10px 11px;border-bottom:1px solid var(--gray-border);color:var(--dark);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--orange-light)}
+
+/* ── BADGES ────────────────────────────────── */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 10px;border-radius:100px;font-weight:600}
+.b-ok{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0}
+.b-low{background:#fffbeb;color:#92400e;border:1px solid #fde68a}
+.b-out{background:#fff0f0;color:#b91c1c;border:1px solid #fca5a5}
+.b-cat{background:var(--orange-light);color:var(--orange-dark);border:1px solid var(--orange-mid)}
+.b-admin{background:var(--orange-light);color:var(--orange-dark);border:1px solid var(--orange-mid)}
+.b-staff{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe}
+.b-viewer{background:#f9fafb;color:#374151;border:1px solid #e5e7eb}
+
+/* ── BUTTONS ───────────────────────────────── */
+.add-btn{background:var(--orange);border:none;color:var(--white);border-radius:9px;padding:8px 16px;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;font-weight:600;transition:background .15s}
+.add-btn:hover{background:var(--orange-dark)}
+.act-btn{border:1.5px solid var(--gray-border);background:var(--white);border-radius:7px;padding:5px 10px;font-size:12px;cursor:pointer;color:var(--gray-text);display:inline-flex;align-items:center;gap:4px;font-weight:500}
+.act-btn:hover{background:var(--orange-light);border-color:var(--orange-mid);color:var(--orange-dark)}
+.print-btn{background:var(--white);border:1.5px solid var(--orange);color:var(--orange);border-radius:9px;padding:8px 16px;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;font-weight:600}
+.print-btn:hover{background:var(--orange-light)}
+
+/* ── FORMS ─────────────────────────────────── */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.fg2{display:flex;flex-direction:column;gap:5px}
+.fg2.full{grid-column:1/-1}
+.fg2 label{font-size:12px;color:var(--gray-text);font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+.fg2 input,.fg2 select{width:100%;padding:9px 11px;border:1.5px solid var(--gray-border);border-radius:9px;font-size:13px;background:var(--white);color:var(--dark);outline:none;transition:border-color .15s}
+.fg2 input:focus,.fg2 select:focus{border-color:var(--orange)}
+
+/* ── ALERT ITEMS ───────────────────────────── */
+.alert-item{display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-bottom:1px solid var(--gray-border)}
+.alert-item:last-child{border-bottom:none}
+.alert-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.alert-text{font-size:13px;color:var(--dark);flex:1;font-weight:500}
+.alert-sub{font-size:11px;color:var(--gray-muted);margin-top:2px}
+
+/* ── TABS ──────────────────────────────────── */
+.tabs{display:flex;gap:5px;flex-wrap:wrap}
+.tab{border:1.5px solid var(--gray-border);background:var(--white);padding:6px 14px;border-radius:9px;font-size:12px;cursor:pointer;color:var(--gray-text);font-weight:500}
+.tab.active{border-color:var(--orange);color:var(--orange-dark);background:var(--orange-light);font-weight:600}
+
+/* ── ISSUE LOG ─────────────────────────────── */
+.issue-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--gray-border);gap:8px}
+.issue-row:last-child{border-bottom:none}
+
+/* ── REPORT CARDS ──────────────────────────── */
+.rpt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:13px;margin-bottom:1.1rem}
+.rpt-card{background:var(--white);border-radius:13px;padding:1.2rem;cursor:pointer;border:1.5px solid var(--gray-border);transition:all .15s}
+.rpt-card:hover{border-color:var(--orange);background:var(--orange-light);transform:translateY(-2px)}
+.rpt-emoji{font-size:26px;margin-bottom:9px}
+.rpt-name{font-size:14px;font-weight:600;color:var(--dark)}
+.rpt-desc{font-size:12px;color:var(--gray-text);margin-top:4px}
+
+/* ── MODAL ─────────────────────────────────── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);align-items:center;justify-content:center;z-index:100;padding:1rem}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:16px;padding:1.6rem;width:100%;max-width:420px;box-shadow:0 12px 48px rgba(0,0,0,.18);max-height:90vh;overflow-y:auto}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:1.2rem;display:flex;justify-content:space-between;align-items:center;color:var(--dark)}
+.close-btn{border:none;background:transparent;cursor:pointer;color:var(--gray-muted);font-size:22px;line-height:1;padding:2px}
+.close-btn:hover{color:var(--dark)}
+
+/* ── PRINT MODAL ───────────────────────────── */
+.print-modal{max-width:720px}
+.print-header{background:var(--orange);color:var(--white);border-radius:10px;padding:1.2rem 1.4rem;margin-bottom:1.2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.print-header-title{font-size:18px;font-weight:700}
+.print-header-sub{font-size:12px;opacity:.85}
+.print-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:.75rem}
+.print-table th{background:var(--orange);color:var(--white);padding:9px 11px;text-align:left;font-weight:600}
+.print-table td{padding:9px 11px;border-bottom:1px solid var(--gray-border);color:var(--dark)}
+.print-table tr:nth-child(even) td{background:var(--orange-light)}
+.print-table tr:hover td{background:var(--orange-mid)}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:1.1rem}
+.stat-box{background:var(--orange-light);border:1.5px solid var(--orange-mid);border-radius:10px;padding:.9rem;text-align:center}
+.stat-box-val{font-size:24px;font-weight:700;color:var(--orange-dark)}
+.stat-box-lbl{font-size:11px;color:var(--gray-text);margin-top:3px;font-weight:500}
+
+/* ── ACCESS BANNER ─────────────────────────── */
+.access-banner{background:var(--orange-light);color:var(--orange-dark);border:1.5px solid var(--orange-mid);border-radius:10px;padding:11px 15px;font-size:13px;display:flex;align-items:center;gap:9px;margin-bottom:1rem;font-weight:500}
+
+/* ── MISC ──────────────────────────────────── */
+.loading{text-align:center;padding:3rem;color:var(--gray-muted);font-size:14px}
+.spinner{display:inline-block;width:26px;height:26px;border:3px solid var(--orange-mid);border-top-color:var(--orange);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:9px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:2.5rem;color:var(--gray-muted);font-size:13px}
+.section-title{font-size:16px;font-weight:700;color:var(--dark);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+
+@media(max-width:600px){
+  .form-grid{grid-template-columns:1fr}
+  .fg2.full{grid-column:1}
+  #issue-form-wrap{grid-template-columns:1fr !important}
+  .rpt-grid{grid-template-columns:1fr 1fr}
+}
+
+/* ── PRINT STYLES ──────────────────────────── */
+@media print{
+  body{background:white}
+  .no-print{display:none !important}
+  .print-area{padding:0}
+  .print-table th{background:var(--orange) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .print-table tr:nth-child(even) td{background:var(--orange-light) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .print-header{background:var(--orange) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ LOGIN PAGE ══════════════ -->
+<div id="page-login" class="page active">
+  <div class="login-bg">
+    <div class="login-card">
+      <div class="brand-row">
+        <div class="brand-badge">🏫</div>
+        <div>
+          <div class="brand-name">OLIS IMS</div>
+          <div class="brand-sub">Inventory Management System</div>
+        </div>
+      </div>
+
+      <!-- Login Form -->
+      <div id="login-panel">
+        <div class="err-box" id="login-err">⚠️ <span id="err-txt">Invalid username or password.</span></div>
+        <div class="fg">
+          <label>Username</label>
+          <div class="inp-wrap">
+            <span>👤</span>
+            <input type="text" id="login-user" placeholder="Enter your username">
+          </div>
+        </div>
+        <div class="fg">
+          <label>Password</label>
+          <div class="inp-wrap">
+            <span>🔒</span>
+            <input type="password" id="login-pass" placeholder="Enter your password">
+          </div>
+        </div>
+        <div style="text-align:right;margin-bottom:13px;margin-top:-4px">
+          <button class="link-btn" onclick="showForgot()">Forgot password?</button>
+        </div>
+        <button class="main-btn" id="login-btn" onclick="doLogin()">🔑 Sign In</button>
+        <div class="divider"></div>
+        <div class="hint">Demo accounts — click to fill:</div>
+        <div class="role-pills">
+          <span class="role-pill" onclick="fillDemo('admin','admin123')">🛡 Admin</span>
+          <span class="role-pill" onclick="fillDemo('staff','staff123')">👤 Staff</span>
+          <span class="role-pill" onclick="fillDemo('viewer','view123')">👁 Viewer</span>
+        </div>
+      </div>
+
+      <!-- Forgot Password -->
+      <div id="forgot-panel" style="display:none">
+        <p style="font-size:13px;color:var(--gray-text);margin-bottom:14px;text-align:center">Enter your username to see your password hint.</p>
+        <div class="err-box" id="forgot-err">⚠️ <span id="forgot-err-txt">Username not found.</span></div>
+        <div class="ok-box" id="forgot-ok">💡 <span id="forgot-ok-txt"></span></div>
+        <div class="fg">
+          <label>Username</label>
+          <div class="inp-wrap">
+            <span>👤</span>
+            <input type="text" id="forgot-user" placeholder="Enter your username">
+          </div>
+        </div>
+        <button class="main-btn" onclick="doForgot()">💡 Get Password Hint</button>
+        <div style="text-align:center;margin-top:13px">
+          <button class="link-btn" onclick="showLogin()">← Back to Sign In</button>
+        </div>
+      </div>
+    </div>
+    <p style="color:rgba(255,255,255,0.6);font-size:11px;margin-top:1.5rem">OLIS IMS © 2025 · Powered by Firebase</p>
+  </div>
+</div>
+
+<!-- ══════════════ APP PAGE ══════════════ -->
+<div id="page-app" class="page">
+  <div class="app-wrap">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="logo">
+        <div class="logo-badge">🏫</div>
+        <div>
+          <div class="logo-title">OLIS IMS</div>
+          <div class="logo-sub">Inventory Management System</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="user-chip">
+          <div class="avatar" id="user-avatar">?</div>
+          <div>
+            <div class="user-name" id="user-display">—</div>
+            <div class="user-role-lbl" id="user-role-label">—</div>
+          </div>
+        </div>
+        <button class="logout-btn" onclick="doLogout()">🚪 Sign Out</button>
+      </div>
+    </div>
+
+    <!-- Nav -->
+    <nav class="nav no-print">
+      <button class="nav-btn active" id="nav-dashboard" onclick="showSection('dashboard',this)">📊 Dashboard</button>
+      <button class="nav-btn" id="nav-inventory" onclick="showSection('inventory',this)">📦 Inventory</button>
+      <button class="nav-btn" id="nav-issue" onclick="showSection('issue',this)">➡️ Issue Items</button>
+      <button class="nav-btn" id="nav-reports" onclick="showSection('reports',this)">📄 Reports</button>
+      <button class="nav-btn" id="nav-users" onclick="showSection('users',this)">👥 Users</button>
+    </nav>
+
+    <!-- ── DASHBOARD ── -->
+    <div id="section-dashboard" class="section active">
+      <div class="metrics">
+        <div class="metric"><div class="metric-icon">📦</div><div class="metric-label">Total Stock</div><div class="metric-value" id="m-total">—</div><div class="metric-sub">items in inventory</div></div>
+        <div class="metric"><div class="metric-icon">⚠️</div><div class="metric-label">Low Stock</div><div class="metric-value" id="m-low" style="color:#92400e">—</div><div class="metric-sub">need restocking</div></div>
+        <div class="metric"><div class="metric-icon">🚫</div><div class="metric-label">Out of Stock</div><div class="metric-value" id="m-out" style="color:#b91c1c">—</div><div class="metric-sub">items depleted</div></div>
+        <div class="metric"><div class="metric-icon">📤</div><div class="metric-label">Issued Today</div><div class="metric-value" id="m-issued" style="color:var(--orange-dark)">—</div><div class="metric-sub">items checked out</div></div>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="card-title"><div class="orange-dot"></div>Stock Alerts</div></div>
+        <div id="alerts-list"><div class="loading"><div class="spinner"></div><br>Loading alerts...</div></div>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="card-title"><div class="orange-dot"></div>Recent Activity</div></div>
+        <div id="activity-list"><div class="loading"><div class="spinner"></div><br>Loading activity...</div></div>
+      </div>
+    </div>
+
+    <!-- ── INVENTORY ── -->
+    <div id="section-inventory" class="section">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;gap:10px;flex-wrap:wrap">
+        <div class="tabs">
+          <button class="tab active" onclick="filterCat('all',this)">All Items</button>
+          <button class="tab" onclick="filterCat('Supplies',this)">📝 Supplies</button>
+          <button class="tab" onclick="filterCat('Library',this)">📚 Library</button>
+          <button class="tab" onclick="filterCat('Sports',this)">⚽ Sports</button>
+        </div>
+        <button class="add-btn" id="add-item-btn" onclick="openModal('add-modal')">＋ Add Item</button>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item Name</th><th>Category</th><th>Quantity</th><th>Min Stock</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="inv-body"><tr><td colspan="6"><div class="loading"><div class="spinner"></div><br>Loading inventory...</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ISSUE ITEMS ── -->
+    <div id="section-issue" class="section">
+      <div id="issue-warn" class="access-banner" style="display:none">🔒 Viewers cannot issue items. Contact an admin or staff member.</div>
+      <div id="issue-form-wrap" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:start">
+        <div class="card">
+          <div class="card-hdr"><div class="card-title"><div class="orange-dot"></div>Issue an Item</div></div>
+          <div class="form-grid">
+            <div class="fg2 full"><label>Item</label><select id="issue-item"><option value="">— select item —</option></select></div>
+            <div class="fg2 full"><label>Issued To (name or class)</label><input type="text" id="issue-to" placeholder="e.g. John Mensah / Class 3B"></div>
+            <div class="fg2"><label>Quantity</label><input type="number" id="issue-qty" value="1" min="1"></div>
+            <div class="fg2"><label>Date</label><input type="date" id="issue-date"></div>
+            <div class="fg2 full"><label>Note (optional)</label><input type="text" id="issue-note" placeholder="e.g. return by Friday"></div>
+          </div>
+          <button class="add-btn" style="margin-top:1rem;width:100%;justify-content:center" onclick="issueItem()">✔ Confirm Issue</button>
+        </div>
+        <div class="card">
+          <div class="card-hdr"><div class="card-title"><div class="orange-dot"></div>Issue Log</div></div>
+          <div id="issue-log"><div class="loading"><div class="spinner"></div><br>Loading log...</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── REPORTS ── -->
+    <div id="section-reports" class="section">
+      <div class="section-title">📄 Generate Reports</div>
+      <div class="rpt-grid">
+        <div class="rpt-card" onclick="openReport('stock')">
+          <div class="rpt-emoji">📊</div>
+          <div class="rpt-name">Full Stock Report</div>
+          <div class="rpt-desc">All items, quantities & status</div>
+        </div>
+        <div class="rpt-card" onclick="openReport('lowstock')">
+          <div class="rpt-emoji">⚠️</div>
+          <div class="rpt-name">Low Stock Report</div>
+          <div class="rpt-desc">Items needing urgent reorder</div>
+        </div>
+        <div class="rpt-card" onclick="openReport('issues')">
+          <div class="rpt-emoji">📤</div>
+          <div class="rpt-name">Issue History Report</div>
+          <div class="rpt-desc">Who received what & when</div>
+        </div>
+        <div class="rpt-card" onclick="openReport('category')">
+          <div class="rpt-emoji">🗂</div>
+          <div class="rpt-name">Category Breakdown</div>
+          <div class="rpt-desc">Inventory split by category</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hdr">
+          <div class="card-title"><div class="orange-dot"></div>Live Inventory Snapshot</div>
+          <button class="print-btn" onclick="openReport('stock')">🖨 Print / Export</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Category</th><th>In Stock</th><th>Min Stock</th><th>Status</th></tr></thead>
+            <tbody id="report-body"><tr><td colspan="5"><div class="loading"><div class="spinner"></div><br>Loading...</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── USERS ── -->
+    <div id="section-users" class="section">
+      <div id="users-warn" class="access-banner" style="display:none">🔒 Only admins can manage user accounts.</div>
+      <div id="users-panel">
+        <div class="card">
+          <div class="card-hdr">
+            <div class="card-title"><div class="orange-dot"></div>User Accounts</div>
+            <button class="add-btn" onclick="openModal('user-modal')">＋ Add User</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Full Name</th><th>Username</th><th>Password Hint</th><th>Role</th><th>Actions</th></tr></thead>
+              <tbody id="users-body"><tr><td colspan="5"><div class="loading"><div class="spinner"></div><br>Loading users...</div></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end app-wrap -->
+</div><!-- end page-app -->
+
+<!-- ══════════ MODALS ══════════ -->
+
+<!-- Add Item -->
+<div class="modal-overlay" id="add-modal">
+  <div class="modal">
+    <div class="modal-title">Add New Item <button class="close-btn" onclick="closeModal('add-modal')">×</button></div>
+    <div class="form-grid">
+      <div class="fg2 full"><label>Item Name</label><input type="text" id="add-name" placeholder="e.g. A4 Exercise Books"></div>
+      <div class="fg2"><label>Category</label><select id="add-cat"><option value="Supplies">📝 Supplies</option><option value="Library">📚 Library</option><option value="Sports">⚽ Sports</option></select></div>
+      <div class="fg2"><label>Quantity</label><input type="number" id="add-qty" value="10" min="0"></div>
+      <div class="fg2 full"><label>Minimum Stock Level</label><input type="number" id="add-min" value="5" min="0"></div>
+    </div>
+    <button class="add-btn" style="margin-top:1.1rem;width:100%;justify-content:center" onclick="addItem()">＋ Add to Inventory</button>
+  </div>
+</div>
+
+<!-- Add User -->
+<div class="modal-overlay" id="user-modal">
+  <div class="modal">
+    <div class="modal-title">Add New User <button class="close-btn" onclick="closeModal('user-modal')">×</button></div>
+    <div class="form-grid">
+      <div class="fg2 full"><label>Full Name</label><input type="text" id="new-fullname" placeholder="e.g. Kwame Asante"></div>
+      <div class="fg2"><label>Username</label><input type="text" id="new-username" placeholder="e.g. kwame"></div>
+      <div class="fg2"><label>Password</label><input type="password" id="new-password" placeholder="password"></div>
+      <div class="fg2 full"><label>Password Hint</label><input type="text" id="new-hint" placeholder="e.g. Your pet's name"></div>
+      <div class="fg2 full"><label>Role</label><select id="new-role"><option value="staff">Staff</option><option value="admin">Admin</option><option value="viewer">Viewer</option></select></div>
+    </div>
+    <button class="add-btn" style="margin-top:1.1rem;width:100%;justify-content:center" onclick="addUser()">👤 Create Account</button>
+  </div>
+</div>
+
+<!-- Report Modal -->
+<div class="modal-overlay" id="report-modal">
+  <div class="modal print-modal" style="max-width:740px">
+    <div class="modal-title no-print">
+      <span id="report-modal-title">Report</span>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="print-btn" onclick="window.print()">🖨 Print / Save PDF</button>
+        <button class="close-btn" onclick="closeModal('report-modal')">×</button>
+      </div>
+    </div>
+    <div id="report-modal-body" class="print-area"></div>
+  </div>
+</div>
+
+<!-- ══════════ FIREBASE ══════════ -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore, collection, doc, getDocs, addDoc, updateDoc, deleteDoc,
+  onSnapshot, query, orderBy, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC9L8KTTGtEgIXtO_dSXpcDsMwYodM5pKM",
+  authDomain: "olis-ims.firebaseapp.com",
+  projectId: "olis-ims",
+  storageBucket: "olis-ims.firebasestorage.app",
+  messagingSenderId: "1093973893364",
+  appId: "1:1093973893364:web:8dcc7ac8cbb672d88e3ea1",
+  measurementId: "G-1K3PYYSM5G"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+// ── State ──────────────────────────────────────
+let currentUser = null;
+let inventory   = [];
+let issueLog    = [];
+let users       = [];
+let currentCat  = 'all';
+
+const ROLES = {
+  admin:  { label:'Admin',  canEdit:true,  canIssue:true,  canUsers:true  },
+  staff:  { label:'Staff',  canEdit:true,  canIssue:true,  canUsers:false },
+  viewer: { label:'Viewer', canEdit:false, canIssue:false, canUsers:false }
+};
+
+// ── Seed defaults ──────────────────────────────
+async function seedUsers(){
+  const snap = await getDocs(collection(db,'users'));
+  if(snap.empty){
+    const defaults = [
+      {name:'Admin User',    username:'admin',  password:'admin123', hint:'First school name', role:'admin'},
+      {name:'Staff Member',  username:'staff',  password:'staff123', hint:'Favourite colour',  role:'staff'},
+      {name:'Viewer Account',username:'viewer', password:'view123',  hint:'Pet name',           role:'viewer'},
+    ];
+    for(const u of defaults) await addDoc(collection(db,'users'), u);
+  }
+}
+async function seedInventory(){
+  const snap = await getDocs(collection(db,'inventory'));
+  if(snap.empty){
+    const defaults = [
+      {name:'A4 Exercise Books',           cat:'Supplies', qty:45, min:20},
+      {name:'Whiteboard Markers',          cat:'Supplies', qty:8,  min:15},
+      {name:'English Textbook (JSS1)',     cat:'Library',  qty:30, min:20},
+      {name:'Mathematics Textbook (JSS1)', cat:'Library',  qty:5,  min:20},
+      {name:'Football',                    cat:'Sports',   qty:3,  min:5 },
+      {name:'Badminton Rackets',           cat:'Sports',   qty:0,  min:4 },
+      {name:'Biro Pens (Box)',             cat:'Supplies', qty:22, min:10},
+    ];
+    for(const item of defaults) await addDoc(collection(db,'inventory'), item);
+  }
+}
+
+// ── Listeners ──────────────────────────────────
+function listenInventory(){
+  onSnapshot(collection(db,'inventory'), snap => {
+    inventory = snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderAll();
+  });
+}
+function listenIssueLog(){
+  const q = query(collection(db,'issueLog'), orderBy('createdAt','desc'));
+  onSnapshot(q, snap => {
+    issueLog = snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderIssueLogPanel();
+    renderDashboard();
+  });
+}
+function listenUsers(){
+  onSnapshot(collection(db,'users'), snap => {
+    users = snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderUsers();
+  });
+}
+
+// ── Auth helpers ────────────────────────────────
+window.fillDemo  = (u,p) => { document.getElementById('login-user').value=u; document.getElementById('login-pass').value=p; };
+window.showForgot = () => {
+  document.getElementById('login-panel').style.display='none';
+  document.getElementById('forgot-panel').style.display='block';
+  document.getElementById('forgot-err').classList.remove('show');
+  document.getElementById('forgot-ok').classList.remove('show');
+};
+window.showLogin = () => {
+  document.getElementById('forgot-panel').style.display='none';
+  document.getElementById('login-panel').style.display='block';
+  document.getElementById('login-err').classList.remove('show');
+};
+window.doForgot = () => {
+  const u = document.getElementById('forgot-user').value.trim();
+  const found = users.find(x=>x.username===u);
+  document.getElementById('forgot-err').classList.remove('show');
+  document.getElementById('forgot-ok').classList.remove('show');
+  if(!found){ document.getElementById('forgot-err-txt').textContent='Username not found.'; document.getElementById('forgot-err').classList.add('show'); return; }
+  document.getElementById('forgot-ok-txt').textContent = 'Hint for "'+u+'": '+(found.hint||'No hint set.');
+  document.getElementById('forgot-ok').classList.add('show');
+};
+
+window.doLogin = async () => {
+  const u   = document.getElementById('login-user').value.trim();
+  const p   = document.getElementById('login-pass').value;
+  const btn = document.getElementById('login-btn');
+  btn.disabled=true; btn.textContent='Signing in...';
+  const found = users.find(x=>x.username===u && x.password===p);
+  btn.disabled=false; btn.textContent='🔑 Sign In';
+  if(!found){ document.getElementById('login-err').classList.add('show'); return; }
+  document.getElementById('login-err').classList.remove('show');
+  currentUser = found;
+  sessionStorage.setItem('olis_user', JSON.stringify({username:found.username,password:found.password}));
+  document.getElementById('page-login').classList.remove('active');
+  document.getElementById('page-app').classList.add('active');
+  applyPerms();
+  renderAll();
+};
+
+window.doLogout = () => {
+  sessionStorage.removeItem('olis_user');
+  currentUser = null;
+  document.getElementById('page-app').classList.remove('active');
+  document.getElementById('page-login').classList.add('active');
+  window.showLogin();
+  document.getElementById('login-user').value='';
+  document.getElementById('login-pass').value='';
+  window.showSection('dashboard', document.getElementById('nav-dashboard'));
+};
+
+document.getElementById('login-pass').addEventListener('keydown', e=>{ if(e.key==='Enter') window.doLogin(); });
+document.getElementById('forgot-user').addEventListener('keydown', e=>{ if(e.key==='Enter') window.doForgot(); });
+
+function enforceLoginPage(){
+  document.getElementById('page-login').classList.add('active');
+  document.getElementById('page-app').classList.remove('active');
+}
+function restoreSession(allUsers){
+  const saved = sessionStorage.getItem('olis_user');
+  if(saved){
+    try{
+      const parsed = JSON.parse(saved);
+      const valid  = allUsers.find(u=>u.username===parsed.username&&u.password===parsed.password);
+      if(valid){
+        currentUser=valid;
+        document.getElementById('page-login').classList.remove('active');
+        document.getElementById('page-app').classList.add('active');
+        applyPerms(); renderAll(); return;
+      }
+    }catch(e){}
+  }
+  enforceLoginPage();
+}
+
+function applyPerms(){
+  const role = ROLES[currentUser.role];
+  const ini  = currentUser.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('user-avatar').textContent     = ini;
+  document.getElementById('user-display').textContent    = currentUser.name;
+  document.getElementById('user-role-label').textContent = role.label;
+  document.getElementById('add-item-btn').style.display  = role.canEdit ? 'inline-flex' : 'none';
+  const nu = document.getElementById('nav-users');
+  nu.disabled=!role.canUsers; nu.title=role.canUsers?'':'Admin only';
+}
+
+// ── Status helpers ──────────────────────────────
+function st(i){ if(i.qty===0) return 'out'; if(i.qty<=i.min) return 'low'; return 'ok'; }
+function stBadge(i){
+  const s=st(i);
+  if(s==='ok')  return '<span class="badge b-ok">✓ In Stock</span>';
+  if(s==='low') return '<span class="badge b-low">⚠ Low Stock</span>';
+  return '<span class="badge b-out">✕ Out of Stock</span>';
+}
+function stText(i){ if(st(i)==='ok') return 'In Stock'; if(st(i)==='low') return 'Low Stock'; return 'Out of Stock'; }
+function roleBadge(r){
+  if(r==='admin') return '<span class="badge b-admin">🛡 Admin</span>';
+  if(r==='staff') return '<span class="badge b-staff">👤 Staff</span>';
+  return '<span class="badge b-viewer">👁 Viewer</span>';
+}
+
+// ── Render functions ────────────────────────────
+function renderInventory(){
+  const fil    = currentCat==='all' ? inventory : inventory.filter(i=>i.cat===currentCat);
+  const canEdit= currentUser && ROLES[currentUser.role].canEdit;
+  const tb     = document.getElementById('inv-body');
+  if(!fil.length){ tb.innerHTML='<tr><td colspan="6"><div class="empty">No items in this category yet.</div></td></tr>'; return; }
+  tb.innerHTML = fil.map(item=>`<tr>
+    <td style="font-weight:600">${item.name}</td>
+    <td><span class="badge b-cat">${item.cat}</span></td>
+    <td style="font-weight:600">${item.qty}</td>
+    <td>${item.min}</td>
+    <td>${stBadge(item)}</td>
+    <td>${canEdit
+      ? `<button class="act-btn" onclick="editQty('${item.id}',1)" title="Add stock">＋</button>
+         <button class="act-btn" onclick="editQty('${item.id}',-1)" style="margin-left:4px" title="Remove stock">－</button>
+         <button class="act-btn" onclick="removeItem('${item.id}')" style="margin-left:4px" title="Delete item">🗑</button>`
+      : '<span style="font-size:11px;color:var(--gray-muted)">View only</span>'
+    }</td>
+  </tr>`).join('');
+}
+
+function renderDashboard(){
+  document.getElementById('m-total').textContent = inventory.reduce((s,i)=>s+i.qty,0);
+  const lows = inventory.filter(i=>st(i)==='low');
+  const outs = inventory.filter(i=>st(i)==='out');
+  document.getElementById('m-low').textContent = lows.length;
+  document.getElementById('m-out').textContent = outs.length;
+  const today = new Date().toISOString().slice(0,10);
+  document.getElementById('m-issued').textContent = issueLog.filter(l=>l.date===today).reduce((s,l)=>s+l.qty,0);
+
+  const al = [
+    ...outs.map(i=>`<div class="alert-item"><div class="alert-dot" style="background:#e24b4a"></div><div><div class="alert-text">${i.name} is out of stock</div><div class="alert-sub">${i.cat}</div></div></div>`),
+    ...lows.map(i=>`<div class="alert-item"><div class="alert-dot" style="background:#ef9f27"></div><div><div class="alert-text">${i.name} is running low — ${i.qty} left (min: ${i.min})</div><div class="alert-sub">${i.cat}</div></div></div>`)
+  ];
+  document.getElementById('alerts-list').innerHTML = al.length ? al.join('') : '<div class="empty">✅ All stock levels are healthy — no alerts.</div>';
+
+  const rec = issueLog.slice(0,6);
+  document.getElementById('activity-list').innerHTML = rec.length
+    ? rec.map(l=>`<div class="alert-item"><div class="alert-dot" style="background:var(--orange)"></div><div><div class="alert-text">${l.qty}× <strong>${l.name}</strong> issued to ${l.to}</div><div class="alert-sub">${l.date}${l.note?' · '+l.note:''} · by ${l.by||'—'}</div></div></div>`).join('')
+    : '<div class="empty">No recent activity yet.</div>';
+}
+
+function renderReports(){
+  const tb = document.getElementById('report-body');
+  if(!inventory.length){ tb.innerHTML='<tr><td colspan="5"><div class="empty">No items yet.</div></td></tr>'; return; }
+  tb.innerHTML = inventory.map(i=>`<tr>
+    <td style="font-weight:600">${i.name}</td>
+    <td><span class="badge b-cat">${i.cat}</span></td>
+    <td style="font-weight:600">${i.qty}</td>
+    <td>${i.min}</td>
+    <td>${stBadge(i)}</td>
+  </tr>`).join('');
+}
+
+function renderIssueSelect(){
+  const sel = document.getElementById('issue-item');
+  sel.innerHTML = '<option value="">— select item —</option>'
+    + inventory.filter(i=>i.qty>0).map(i=>`<option value="${i.id}">${i.name} (${i.qty} available)</option>`).join('');
+}
+
+function renderIssueLogPanel(){
+  const el = document.getElementById('issue-log');
+  el.innerHTML = issueLog.length
+    ? issueLog.slice(0,20).map(l=>`<div class="issue-row">
+        <div>
+          <div style="font-size:13px;font-weight:600">${l.name}</div>
+          <div style="font-size:11px;color:var(--gray-muted)">${l.to} · ${l.date} · ${l.by||'—'}</div>
+        </div>
+        <span class="badge b-ok">${l.qty} issued</span>
+      </div>`).join('')
+    : '<div class="empty">No items issued yet.</div>';
+}
+
+function renderUsers(){
+  const tb = document.getElementById('users-body');
+  if(!users.length){ tb.innerHTML='<tr><td colspan="5"><div class="empty">No users found.</div></td></tr>'; return; }
+  tb.innerHTML = users.map(u=>`<tr>
+    <td style="font-weight:600">${u.name}</td>
+    <td style="color:var(--gray-text)">${u.username}</td>
+    <td style="color:var(--gray-muted);font-size:12px">${u.hint||'—'}</td>
+    <td>${roleBadge(u.role)}</td>
+    <td>${u.username!=='admin'
+      ? `<button class="act-btn" onclick="removeUser('${u.id}')">🗑 Remove</button>`
+      : '<span style="font-size:11px;color:var(--gray-muted)">Protected</span>'
+    }</td>
+  </tr>`).join('');
+}
+
+function renderAll(){ renderInventory(); renderDashboard(); renderReports(); renderIssueSelect(); }
+
+// ── Inventory Actions ───────────────────────────
+window.editQty = async (id, delta) => {
+  const item = inventory.find(i=>i.id===id); if(!item) return;
+  const nv = item.qty + delta;
+  if(nv<0){ alert('Quantity cannot go below 0.'); return; }
+  await updateDoc(doc(db,'inventory',id), {qty:nv});
+};
+window.removeItem = async (id) => {
+  if(!confirm('Remove this item from inventory?')) return;
+  await deleteDoc(doc(db,'inventory',id));
+};
+window.filterCat = (cat, btn) => {
+  currentCat = cat;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderInventory();
+};
+window.addItem = async () => {
+  const name = document.getElementById('add-name').value.trim();
+  const cat  = document.getElementById('add-cat').value;
+  const qty  = parseInt(document.getElementById('add-qty').value)||0;
+  const min  = parseInt(document.getElementById('add-min').value)||5;
+  if(!name){ alert('Please enter an item name.'); return; }
+  await addDoc(collection(db,'inventory'), {name,cat,qty,min});
+  document.getElementById('add-name').value='';
+  document.getElementById('add-qty').value='10';
+  document.getElementById('add-min').value='5';
+  closeModal('add-modal');
+};
+
+// ── Issue Item ──────────────────────────────────
+window.issueItem = async () => {
+  if(!currentUser||!ROLES[currentUser.role].canIssue){ alert('You do not have permission to issue items.'); return; }
+  const id   = document.getElementById('issue-item').value;
+  const to   = document.getElementById('issue-to').value.trim();
+  const qty  = parseInt(document.getElementById('issue-qty').value)||1;
+  const date = document.getElementById('issue-date').value||new Date().toISOString().slice(0,10);
+  const note = document.getElementById('issue-note').value.trim();
+  if(!id){ alert('Please select an item.'); return; }
+  if(!to){ alert('Please enter recipient.'); return; }
+  const item = inventory.find(i=>i.id===id); if(!item) return;
+  if(qty>item.qty){ alert('Only '+item.qty+' available.'); return; }
+  await updateDoc(doc(db,'inventory',id), {qty: item.qty - qty});
+  await addDoc(collection(db,'issueLog'), {name:item.name, to, qty, date, note, cat:item.cat, by:currentUser.name, createdAt:serverTimestamp()});
+  document.getElementById('issue-to').value='';
+  document.getElementById('issue-qty').value='1';
+  document.getElementById('issue-note').value='';
+};
+
+// ── Users ───────────────────────────────────────
+window.addUser = async () => {
+  const name     = document.getElementById('new-fullname').value.trim();
+  const username = document.getElementById('new-username').value.trim();
+  const password = document.getElementById('new-password').value;
+  const hint     = document.getElementById('new-hint').value.trim();
+  const role     = document.getElementById('new-role').value;
+  if(!name||!username||!password){ alert('Please fill in all required fields.'); return; }
+  if(users.find(u=>u.username===username)){ alert('Username already taken.'); return; }
+  await addDoc(collection(db,'users'), {name,username,password,hint,role});
+  document.getElementById('new-fullname').value='';
+  document.getElementById('new-username').value='';
+  document.getElementById('new-password').value='';
+  document.getElementById('new-hint').value='';
+  closeModal('user-modal');
+};
+window.removeUser = async (id) => {
+  if(!confirm('Remove this user account?')) return;
+  await deleteDoc(doc(db,'users',id));
+};
+
+// ── Report Generator ────────────────────────────
+window.openReport = (type) => {
+  const today    = new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+  const genBy    = currentUser ? currentUser.name : 'System';
+  const total    = inventory.reduce((s,i)=>s+i.qty,0);
+  const lowItems = inventory.filter(i=>st(i)==='low');
+  const outItems = inventory.filter(i=>st(i)==='out');
+  const cats     = ['Supplies','Library','Sports'];
+
+  const headerHTML = (title, sub='') => `
+    <div class="print-header">
+      <div>
+        <div class="print-header-title">🏫 OLIS IMS — ${title}</div>
+        <div class="print-header-sub">Generated: ${today} &nbsp;|&nbsp; By: ${genBy}${sub}</div>
+      </div>
+      <div style="text-align:right;font-size:12px;opacity:.85">Inventory Management System<br>Official School Report</div>
+    </div>`;
+
+  let title = '', html = '';
+
+  if(type==='stock'){
+    title = 'Full Stock Report';
+    html = headerHTML('Full Stock Report')
+      + `<div class="stat-row">
+          <div class="stat-box"><div class="stat-box-val">${total}</div><div class="stat-box-lbl">Total Items</div></div>
+          <div class="stat-box"><div class="stat-box-val">${inventory.length}</div><div class="stat-box-lbl">Product Lines</div></div>
+          <div class="stat-box"><div class="stat-box-val" style="color:#92400e">${lowItems.length}</div><div class="stat-box-lbl">Low Stock</div></div>
+          <div class="stat-box"><div class="stat-box-val" style="color:#b91c1c">${outItems.length}</div><div class="stat-box-lbl">Out of Stock</div></div>
+        </div>
+        <table class="print-table">
+          <thead><tr><th>#</th><th>Item Name</th><th>Category</th><th>Quantity</th><th>Min Stock</th><th>Status</th></tr></thead>
+          <tbody>${inventory.map((i,n)=>`<tr><td>${n+1}</td><td><strong>${i.name}</strong></td><td>${i.cat}</td><td><strong>${i.qty}</strong></td><td>${i.min}</td><td>${stText(i)}</td></tr>`).join('')}</tbody>
+        </table>`;
+  }
+  else if(type==='lowstock'){
+    title = 'Low Stock Report';
+    const problem = [...outItems, ...lowItems];
+    html = headerHTML('Low Stock Report', ` &nbsp;|&nbsp; ${problem.length} item(s) need attention`)
+      + (problem.length
+        ? `<div class="stat-row">
+            <div class="stat-box"><div class="stat-box-val" style="color:#b91c1c">${outItems.length}</div><div class="stat-box-lbl">Out of Stock</div></div>
+            <div class="stat-box"><div class="stat-box-val" style="color:#92400e">${lowItems.length}</div><div class="stat-box-lbl">Low Stock</div></div>
+          </div>
+          <table class="print-table">
+            <thead><tr><th>#</th><th>Item Name</th><th>Category</th><th>Current Qty</th><th>Min Stock</th><th>Reorder Qty</th><th>Status</th></tr></thead>
+            <tbody>${problem.map((i,n)=>`<tr><td>${n+1}</td><td><strong>${i.name}</strong></td><td>${i.cat}</td><td style="color:#b91c1c;font-weight:700">${i.qty}</td><td>${i.min}</td><td style="color:var(--orange-dark);font-weight:600">${Math.max(0,i.min*2 - i.qty)}</td><td>${stText(i)}</td></tr>`).join('')}</tbody>
+          </table>`
+        : '<div class="empty" style="padding:2rem;text-align:center;color:#166534;font-size:15px;font-weight:600">✅ All items are sufficiently stocked — no reorder needed!</div>');
+  }
+  else if(type==='issues'){
+    title = 'Issue History Report';
+    html = headerHTML('Issue History Report', ` &nbsp;|&nbsp; ${issueLog.length} record(s)`)
+      + (issueLog.length
+        ? `<div class="stat-row">
+            <div class="stat-box"><div class="stat-box-val">${issueLog.length}</div><div class="stat-box-lbl">Total Issues</div></div>
+            <div class="stat-box"><div class="stat-box-val">${issueLog.reduce((s,l)=>s+l.qty,0)}</div><div class="stat-box-lbl">Items Issued</div></div>
+          </div>
+          <table class="print-table">
+            <thead><tr><th>#</th><th>Item Name</th><th>Issued To</th><th>Qty</th><th>Date</th><th>Issued By</th><th>Note</th></tr></thead>
+            <tbody>${issueLog.map((l,n)=>`<tr><td>${n+1}</td><td><strong>${l.name}</strong></td><td>${l.to}</td><td>${l.qty}</td><td>${l.date}</td><td>${l.by||'—'}</td><td>${l.note||'—'}</td></tr>`).join('')}</tbody>
+          </table>`
+        : '<div class="empty" style="padding:2rem;text-align:center">No issue records found.</div>');
+  }
+  else if(type==='category'){
+    title = 'Category Breakdown Report';
+    html = headerHTML('Category Breakdown Report')
+      + `<div class="stat-row">${cats.map(c=>{
+          const items = inventory.filter(i=>i.cat===c);
+          const ttl   = items.reduce((s,i)=>s+i.qty,0);
+          return `<div class="stat-box"><div class="stat-box-val">${ttl}</div><div class="stat-box-lbl">${c}</div></div>`;
+        }).join('')}</div>
+        <table class="print-table">
+          <thead><tr><th>Category</th><th>Item Count</th><th>Total Qty</th><th>In Stock</th><th>Low Stock</th><th>Out of Stock</th></tr></thead>
+          <tbody>${cats.map(c=>{
+            const items = inventory.filter(i=>i.cat===c);
+            const ttl   = items.reduce((s,i)=>s+i.qty,0);
+            const inS   = items.filter(i=>st(i)==='ok').length;
+            const lo    = items.filter(i=>st(i)==='low').length;
+            const out   = items.filter(i=>st(i)==='out').length;
+            return `<tr><td><strong>${c}</strong></td><td>${items.length}</td><td><strong>${ttl}</strong></td><td style="color:#166534">${inS}</td><td style="color:#92400e">${lo}</td><td style="color:#b91c1c">${out}</td></tr>`;
+          }).join('')}</tbody>
+        </table>
+        <div style="margin-top:1.5rem">
+          ${cats.map(c=>{
+            const items = inventory.filter(i=>i.cat===c);
+            if(!items.length) return '';
+            return `<div style="margin-bottom:1.2rem">
+              <div style="font-size:13px;font-weight:700;color:var(--dark);margin-bottom:.5rem;padding:.4rem .7rem;background:var(--orange-light);border-radius:7px;border-left:4px solid var(--orange)">${c} — Detailed Breakdown</div>
+              <table class="print-table">
+                <thead><tr><th>#</th><th>Item Name</th><th>Qty</th><th>Min</th><th>Status</th></tr></thead>
+                <tbody>${items.map((i,n)=>`<tr><td>${n+1}</td><td>${i.name}</td><td><strong>${i.qty}</strong></td><td>${i.min}</td><td>${stText(i)}</td></tr>`).join('')}</tbody>
+              </table>
+            </div>`;
+          }).join('')}
+        </div>`;
+  }
+
+  document.getElementById('report-modal-title').textContent = '📄 ' + title;
+  document.getElementById('report-modal-body').innerHTML = html;
+  openModal('report-modal');
+};
+
+// ── Navigation ──────────────────────────────────
+window.showSection = (id, btn) => {
+  if(id==='users' && currentUser && !ROLES[currentUser.role].canUsers) return;
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('section-'+id).classList.add('active');
+  if(btn) btn.classList.add('active');
+  if(id==='issue'){
+    const c = currentUser && ROLES[currentUser.role].canIssue;
+    document.getElementById('issue-warn').style.display       = c?'none':'flex';
+    document.getElementById('issue-form-wrap').style.display  = c?'grid':'none';
+  }
+  if(id==='users'){
+    const c = currentUser && ROLES[currentUser.role].canUsers;
+    document.getElementById('users-warn').style.display  = c?'none':'flex';
+    document.getElementById('users-panel').style.display = c?'block':'none';
+  }
+  if(id==='reports') renderReports();
+};
+
+// ── Modals ──────────────────────────────────────
+window.openModal  = id => document.getElementById(id).classList.add('open');
+window.closeModal = id => document.getElementById(id).classList.remove('open');
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click', e=>{ if(e.target===m) m.classList.remove('open'); }));
+
+// ── Init ────────────────────────────────────────
+document.getElementById('issue-date').value = new Date().toISOString().slice(0,10);
+enforceLoginPage();
+
+(async () => {
+  await seedUsers();
+  await seedInventory();
+  listenUsers();
+  listenInventory();
+  listenIssueLog();
+  restoreSession(users);
+})();
+
+function enforceLoginPage(){
+  document.getElementById('page-login').classList.add('active');
+  document.getElementById('page-app').classList.remove('active');
+}
+function restoreSession(allUsers){
+  const saved = sessionStorage.getItem('olis_user');
+  if(saved){
+    try{
+      const parsed = JSON.parse(saved);
+      const valid  = allUsers.find(u=>u.username===parsed.username&&u.password===parsed.password);
+      if(valid){
+        currentUser=valid;
+        document.getElementById('page-login').classList.remove('active');
+        document.getElementById('page-app').classList.add('active');
+        applyPerms(); renderAll(); return;
+      }
+    }catch(e){}
+  }
+  enforceLoginPage();
+}
+</script>
+</body>
+</html>
