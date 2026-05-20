@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OLIS IMS — Inventory Management System</title>
+<title>OSAGYEFO LEADERSHIP — Inventory Management System</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -18,16 +18,17 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--gray-bg);co
 .login-bg{background:var(--orange);min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:2rem 1rem}
 .login-card{background:var(--white);border-radius:16px;padding:2.25rem;width:100%;max-width:400px;box-shadow:0 8px 40px rgba(0,0,0,0.18)}
 .brand-row{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:1.75rem;text-align:center}
-.brand-badge img{width:72px;height:72px;object-fit:contain;border-radius:50%;box-shadow:0 2px 12px rgba(0,0,0,0.15)}
+.school-icon{width:72px;height:72px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(232,101,10,0.35);position:relative;overflow:hidden}
+.school-icon svg{width:40px;height:40px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .brand-name{font-size:22px;font-weight:700;color:var(--dark)}
 .brand-sub{font-size:12px;color:var(--gray-text);letter-spacing:.04em}
 .fg{margin-bottom:14px}
 .fg label{display:block;font-size:12px;color:var(--gray-text);font-weight:600;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
 .inp-wrap{position:relative}
 .inp-wrap .inp-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:17px;pointer-events:none}
-.inp-wrap input{width:100%;padding:10px 38px 10px 38px;border:1.5px solid var(--gray-border);border-radius:9px;font-size:14px;background:var(--white);color:var(--dark);outline:none;transition:border-color .15s}
+.inp-wrap input{width:100%;padding:10px 42px 10px 38px;border:1.5px solid var(--gray-border);border-radius:9px;font-size:14px;background:var(--white);color:var(--dark);outline:none;transition:border-color .15s}
 .inp-wrap input:focus{border-color:var(--orange)}
-.eye-btn{position:absolute;right:11px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:17px;color:var(--gray-muted);padding:0;line-height:1}
+.eye-btn{position:absolute;right:11px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--gray-muted);padding:2px;line-height:1}
 .eye-btn:hover{color:var(--orange)}
 .main-btn{width:100%;background:var(--orange);border:none;color:var(--white);border-radius:9px;padding:11px 14px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;font-weight:600;margin-top:4px;transition:background .15s}
 .main-btn:hover{background:var(--orange-dark)}.main-btn:disabled{background:#ccc;cursor:not-allowed}
@@ -47,8 +48,8 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--gray-bg);co
 .app-wrap{max-width:1120px;margin:0 auto;padding:1rem 1.25rem}
 .topbar{display:flex;align-items:center;justify-content:space-between;background:var(--orange);border-radius:14px;padding:12px 20px;margin-bottom:1.25rem;flex-wrap:wrap;gap:10px}
 .logo{display:flex;align-items:center;gap:11px}
-.logo-badge{width:42px;height:42px;border-radius:50%;background:var(--white);display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
-.logo-badge img{width:42px;height:42px;object-fit:contain;border-radius:50%}
+.logo-icon{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,0.4)}
+.logo-icon svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .logo-title{font-size:17px;font-weight:700;color:var(--white)}
 .logo-sub{font-size:11px;color:rgba(255,255,255,0.85)}
 .topbar-right{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
@@ -100,8 +101,11 @@ tr:hover td{background:var(--orange-light)}
 /* BUTTONS */
 .add-btn{background:var(--orange);border:none;color:var(--white);border-radius:9px;padding:8px 16px;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;font-weight:600;transition:background .15s}
 .add-btn:hover{background:var(--orange-dark)}
-.act-btn{border:1.5px solid var(--gray-border);background:var(--white);border-radius:7px;padding:5px 10px;font-size:12px;cursor:pointer;color:var(--gray-text);display:inline-flex;align-items:center;gap:4px;font-weight:500}
+.act-btn{border:1.5px solid var(--gray-border);background:var(--white);border-radius:7px;padding:5px 9px;font-size:12px;cursor:pointer;color:var(--gray-text);display:inline-flex;align-items:center;gap:3px;font-weight:500}
 .act-btn:hover{background:var(--orange-light);border-color:var(--orange-mid);color:var(--orange-dark)}
+.act-btn.edit{color:#1e40af;border-color:#bfdbfe}
+.act-btn.edit:hover{background:#eff6ff;border-color:#93c5fd;color:#1e40af}
+.act-btn.danger:hover{background:#fff0f0;border-color:#fca5a5;color:#b91c1c}
 .print-btn{background:var(--white);border:1.5px solid var(--orange);color:var(--orange);border-radius:9px;padding:8px 16px;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;font-weight:600}
 .print-btn:hover{background:var(--orange-light)}
 
@@ -176,27 +180,28 @@ tr:hover td{background:var(--orange-light)}
 }
 @media print{
   body{background:white}.no-print{display:none !important}
-  .print-table th{background:var(--orange) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .print-table tr:nth-child(even) td{background:var(--orange-light) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .print-header{background:var(--orange) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .print-table th{background:var(--orange)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .print-table tr:nth-child(even) td{background:var(--orange-light)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .print-header{background:var(--orange)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 </style>
 </head>
 <body>
-
-<!-- SCHOOL BADGE BASE64 -->
-<script>
-const BADGE_SRC = "data:image/jpeg;base64,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";
-</script>
 
 <!-- LOGIN PAGE -->
 <div id="page-login" class="page active">
   <div class="login-bg">
     <div class="login-card">
       <div class="brand-row">
-        <div class="brand-badge"><img id="login-badge" src="" alt="OLIS School Badge"></div>
+        <div class="school-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+            <path d="M9 21V12h6v9"/>
+            <path d="M12 3v3M7 7h2M15 7h2M7 11h2M15 11h2"/>
+          </svg>
+        </div>
         <div>
-          <div class="brand-name">OLIS IMS</div>
+          <div class="brand-name">OSAGYEFO LEADERSHIP</div>
           <div class="brand-sub">Inventory Management System</div>
         </div>
       </div>
@@ -221,12 +226,12 @@ const BADGE_SRC = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1
         <div style="text-align:right;margin-bottom:13px;margin-top:-4px">
           <button class="link-btn" onclick="window.showForgot()">Forgot password?</button>
         </div>
-        <button class="main-btn" id="login-btn" onclick="window.doLogin()">🔑 Sign In</button>
+        <button class="main-btn" id="login-btn" onclick="window.doLogin()">Sign In</button>
         <div class="divider"></div>
-        <div class="hint">click to fill:</div>
+        <div class="hint">Demo accounts — click to fill:</div>
         <div class="role-pills">
-          <span class="role-pill" onclick="window.fillDemo('director','director123')">🏅 Director</span>
-          <span class="role-pill" onclick="window.fillDemo('admin','admin123')">🛡 Admin</span>
+          <span class="role-pill" onclick="window.fillDemo('director','director123')">👩‍⚖️ Director</span>
+          <span class="role-pill" onclick="window.fillDemo('admin','admin123')">🏡 Admin</span>
         </div>
       </div>
 
@@ -254,12 +259,16 @@ const BADGE_SRC = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1
 <!-- APP PAGE -->
 <div id="page-app" class="page">
   <div class="app-wrap">
-
     <div class="topbar">
       <div class="logo">
-        <div class="logo-badge"><img id="app-badge" src="" alt="OLIS Badge"></div>
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+            <path d="M9 21V12h6v9"/>
+          </svg>
+        </div>
         <div>
-          <div class="logo-title">OLIS IMS</div>
+          <div class="logo-title">OSAGYEFO LEADERSHIP</div>
           <div class="logo-sub">Inventory Management System</div>
         </div>
       </div>
@@ -293,11 +302,11 @@ const BADGE_SRC = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1
       </div>
       <div class="card">
         <div class="card-hdr"><div class="card-title"><div class="orange-dot"></div>Stock Alerts</div></div>
-        <div id="alerts-list"><div class="loading"><div class="spinner"></div><br>Loading alerts...</div></div>
+        <div id="alerts-list"><div class="loading"><div class="spinner"></div><br>Loading...</div></div>
       </div>
       <div class="card">
         <div class="card-hdr"><div class="card-title"><div class="orange-dot"></div>Recent Activity</div></div>
-        <div id="activity-list"><div class="loading"><div class="spinner"></div><br>Loading activity...</div></div>
+        <div id="activity-list"><div class="loading"><div class="spinner"></div><br>Loading...</div></div>
       </div>
     </div>
 
@@ -307,7 +316,7 @@ const BADGE_SRC = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1
         <div class="tabs">
           <button class="tab active" onclick="window.filterCat('all',this)">All Items</button>
           <button class="tab" onclick="window.filterCat('Books',this)">📚 Books</button>
-          <button class="tab" onclick="window.filterCat('School Uniforms',this)">👕 School Uniforms</button>
+          <button class="tab" onclick="window.filterCat('School Outfits',this)">👕 School Outfits</button>
           <button class="tab" onclick="window.filterCat('Stationery',this)">✏️ Stationery</button>
           <button class="tab" onclick="window.filterCat('Sports Equipment',this)">⚽ Sports Equipment</button>
         </div>
@@ -317,7 +326,7 @@ const BADGE_SRC = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1
         <div class="table-wrap">
           <table>
             <thead><tr><th>Item Name</th><th>Category</th><th>Quantity</th><th>Min Stock</th><th>Status</th><th>Actions</th></tr></thead>
-            <tbody id="inv-body"><tr><td colspan="6"><div class="loading"><div class="spinner"></div><br>Loading inventory...</div></td></tr></tbody>
+            <tbody id="inv-body"><tr><td colspan="6"><div class="loading"><div class="spinner"></div><br>Loading...</div></td></tr></tbody>
           </table>
         </div>
       </div>
@@ -340,7 +349,7 @@ const BADGE_SRC = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1
         </div>
         <div class="card">
           <div class="card-hdr"><div class="card-title"><div class="orange-dot"></div>Issue Log</div></div>
-          <div id="issue-log"><div class="loading"><div class="spinner"></div><br>Loading log...</div></div>
+          <div id="issue-log"><div class="loading"><div class="spinner"></div><br>Loading...</div></div>
         </div>
       </div>
     </div>
@@ -380,28 +389,27 @@ const BADGE_SRC = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1
           <div class="table-wrap">
             <table>
               <thead><tr><th>Full Name</th><th>Username</th><th>Password Hint</th><th>Role</th><th>Actions</th></tr></thead>
-              <tbody id="users-body"><tr><td colspan="5"><div class="loading"><div class="spinner"></div><br>Loading users...</div></td></tr></tbody>
+              <tbody id="users-body"></tbody>
             </table>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="footer no-print">© 2026 OLIS IMS — Inventory Management System. All rights reserved.</div>
-
+    <div class="footer no-print">© 2026 OSAGYEFO LEADERSHIP — Inventory Management System.</div>
   </div>
 </div>
 
-<!-- MODALS -->
+<!-- ADD / EDIT ITEM MODAL -->
 <div class="modal-overlay" id="add-modal">
   <div class="modal">
-    <div class="modal-title">Add New Item <button class="close-btn" onclick="window.closeModal('add-modal')">×</button></div>
+    <div class="modal-title" id="add-modal-title">Add New Item <button class="close-btn" onclick="window.closeModal('add-modal')">×</button></div>
     <div class="form-grid">
-      <div class="fg2 full"><label>Item Name</label><input type="text" id="add-name" placeholder="e.g. English Textbook JSS1"></div>
+      <div class="fg2 full"><label>Item Name</label><input type="text" id="add-name" placeholder="e.g. English Textbook JHS 1A"></div>
       <div class="fg2"><label>Category</label>
         <select id="add-cat">
           <option value="Books">📚 Books</option>
-          <option value="School Uniforms">👕 School Uniforms</option>
+          <option value="School Outfits">👕 School Outfits</option>
           <option value="Stationery">✏️ Stationery</option>
           <option value="Sports Equipment">⚽ Sports Equipment</option>
         </select>
@@ -409,10 +417,12 @@ const BADGE_SRC = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1
       <div class="fg2"><label>Quantity</label><input type="number" id="add-qty" value="10" min="0"></div>
       <div class="fg2 full"><label>Minimum Stock Level</label><input type="number" id="add-min" value="5" min="0"></div>
     </div>
-    <button class="add-btn" style="margin-top:1.1rem;width:100%;justify-content:center" onclick="window.addItem()">＋ Add to Inventory</button>
+    <input type="hidden" id="edit-item-id" value="">
+    <button class="add-btn" id="add-modal-btn" style="margin-top:1.1rem;width:100%;justify-content:center" onclick="window.saveItem()">＋ Add to Inventory</button>
   </div>
 </div>
 
+<!-- ADD USER MODAL -->
 <div class="modal-overlay" id="user-modal">
   <div class="modal">
     <div class="modal-title">Add New User <button class="close-btn" onclick="window.closeModal('user-modal')">×</button></div>
@@ -432,6 +442,7 @@ const BADGE_SRC = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1
   </div>
 </div>
 
+<!-- REPORT MODAL -->
 <div class="modal-overlay" id="report-modal">
   <div class="modal print-modal" style="max-width:740px">
     <div class="modal-title no-print">
@@ -450,7 +461,7 @@ const BADGE_SRC = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
   getFirestore, collection, doc, getDocs, addDoc, updateDoc, deleteDoc,
-  onSnapshot, query, orderBy, serverTimestamp
+  setDoc, onSnapshot, query, orderBy, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -466,10 +477,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db  = getFirestore(app);
 
-// Set badge images from base64
-document.getElementById('login-badge').src = BADGE_SRC;
-document.getElementById('app-badge').src   = BADGE_SRC;
-
 let currentUser = null;
 let inventory   = [];
 let issueLog    = [];
@@ -480,103 +487,105 @@ const ROLES = {
   director: { label:'Director', canEdit:true, canIssue:true, canUsers:true  },
   admin:    { label:'Admin',    canEdit:true, canIssue:true, canUsers:false },
 };
-
 const CATS = ['Books','School Uniforms','Stationery','Sports Equipment'];
 
-// ── Seed defaults ──────────────────────────────
-async function seedUsers(){
+// ── Seed: always ensure director + admin exist ─────────────
+async function ensureDefaultUsers(){
   const snap = await getDocs(collection(db,'users'));
-  if(snap.empty){
-    const defaults = [
-      {name:'School Director', username:'director', password:'director123', hint:'School founding year', role:'director'},
-      {name:'Admin User',      username:'admin',    password:'admin123',    hint:'First school name',   role:'admin'},
-    ];
-    for(const u of defaults) await addDoc(collection(db,'users'), u);
+  const existing = snap.docs.map(d=>d.data().username);
+  if(!existing.includes('director')){
+    await addDoc(collection(db,'users'),{name:'School Director',username:'director',password:'director123',hint:'School founding year',role:'director'});
+  }
+  if(!existing.includes('admin')){
+    await addDoc(collection(db,'users'),{name:'Admin User',username:'admin',password:'admin123',hint:'First school name',role:'admin'});
   }
 }
+
 async function seedInventory(){
   const snap = await getDocs(collection(db,'inventory'));
   if(snap.empty){
-    const defaults = [
-      {name:'English Textbook (JHS 1A)',   cat:'Books',           qty:30, min:20},
-      {name:'Mathematics Textbook',      cat:'Books',           qty:5,  min:20},
-      {name:'School Shirt (Size M)',     cat:'School Uniforms', qty:40, min:15},
-      {name:'School Trouser (Size M)',   cat:'School Uniforms', qty:8,  min:15},
-      {name:'A4 Exercise Books',         cat:'Stationery',      qty:45, min:20},
-      {name:'Pens (Box)',           cat:'Stationery',      qty:22, min:10},
-      {name:'Football',                  cat:'Sports Equipment',qty:3,  min:5 },
-      {name:'Wednesday Wear',         cat:'School Uniform',qty:0,  min:4 },
+    const defaults=[
+      {name:'English Textbook (JHS 1A)',  cat:'Books',           qty:30,min:20},
+      {name:'Mathematics Textbook (Basic 3)',     cat:'Books',           qty:5, min:20},
+      {name:'School Shirt (Size M)',    cat:'School Outfits', qty:40,min:15},
+      {name:'School Trouser (Size M)',  cat:'School Outfits', qty:8, min:15},
+      {name:'A4 Exercise Books',        cat:'Stationery',      qty:45,min:20},
+      {name:'Pens (Box)',          cat:'Stationery',      qty:22,min:10},
+      {name:'Football',                 cat:'Sports Equipment',qty:3, min:5 },
+      {name:'Volleyball',        cat:'Sports Equipment',qty:0, min:4 },
     ];
-    for(const item of defaults) await addDoc(collection(db,'inventory'), item);
+    for(const item of defaults) await addDoc(collection(db,'inventory'),item);
   }
 }
 
-// ── Listeners ───────────────────────────────────
+// ── Listeners ───────────────────────────────────────────────
 function listenInventory(){
-  onSnapshot(collection(db,'inventory'), snap => {
-    inventory = snap.docs.map(d=>({id:d.id,...d.data()}));
+  onSnapshot(collection(db,'inventory'),snap=>{
+    inventory=snap.docs.map(d=>({id:d.id,...d.data()}));
     renderAll();
   });
 }
 function listenIssueLog(){
-  const q = query(collection(db,'issueLog'), orderBy('createdAt','desc'));
-  onSnapshot(q, snap => {
-    issueLog = snap.docs.map(d=>({id:d.id,...d.data()}));
+  const q=query(collection(db,'issueLog'),orderBy('createdAt','desc'));
+  onSnapshot(q,snap=>{
+    issueLog=snap.docs.map(d=>({id:d.id,...d.data()}));
     renderIssueLogPanel();
     renderDashboard();
   });
 }
 function listenUsers(){
-  onSnapshot(collection(db,'users'), snap => {
-    users = snap.docs.map(d=>({id:d.id,...d.data()}));
+  onSnapshot(collection(db,'users'),snap=>{
+    users=snap.docs.map(d=>({id:d.id,...d.data()}));
     renderUsers();
   });
 }
 
-// ── Auth ────────────────────────────────────────
-window.fillDemo   = (u,p) => { document.getElementById('login-user').value=u; document.getElementById('login-pass').value=p; };
-window.showForgot = () => {
+// ── Auth ─────────────────────────────────────────────────────
+window.fillDemo   = (u,p)=>{ document.getElementById('login-user').value=u; document.getElementById('login-pass').value=p; };
+window.showForgot = ()=>{
   document.getElementById('login-panel').style.display='none';
   document.getElementById('forgot-panel').style.display='block';
   document.getElementById('forgot-err').classList.remove('show');
   document.getElementById('forgot-ok').classList.remove('show');
 };
-window.showLogin = () => {
+window.showLogin = ()=>{
   document.getElementById('forgot-panel').style.display='none';
   document.getElementById('login-panel').style.display='block';
   document.getElementById('login-err').classList.remove('show');
 };
-window.togglePassword = () => {
-  const inp = document.getElementById('login-pass');
-  const btn = document.getElementById('eye-toggle');
-  if(inp.type==='password'){ inp.type='text'; btn.textContent='🙈'; }
-  else { inp.type='password'; btn.textContent='👁'; }
+window.togglePassword = ()=>{
+  const inp=document.getElementById('login-pass');
+  const btn=document.getElementById('eye-toggle');
+  inp.type=inp.type==='password'?'text':'password';
+  btn.textContent=inp.type==='password'?'👁';
 };
-window.doForgot = () => {
-  const u = document.getElementById('forgot-user').value.trim();
-  const found = users.find(x=>x.username===u);
+window.doForgot = ()=>{
+  const u=document.getElementById('forgot-user').value.trim();
+  const found=users.find(x=>x.username===u);
   document.getElementById('forgot-err').classList.remove('show');
   document.getElementById('forgot-ok').classList.remove('show');
   if(!found){ document.getElementById('forgot-err-txt').textContent='Username not found.'; document.getElementById('forgot-err').classList.add('show'); return; }
-  document.getElementById('forgot-ok-txt').textContent = 'Hint for "'+u+'": '+(found.hint||'No hint set.');
+  document.getElementById('forgot-ok-txt').textContent='Hint for "'+u+'": '+(found.hint||'No hint set.');
   document.getElementById('forgot-ok').classList.add('show');
 };
-window.doLogin = async () => {
+window.doLogin = async ()=>{
   const u=document.getElementById('login-user').value.trim();
   const p=document.getElementById('login-pass').value;
   const btn=document.getElementById('login-btn');
   btn.disabled=true; btn.textContent='Signing in...';
+  // Wait briefly to ensure listeners have loaded users
+  await new Promise(r=>setTimeout(r,500));
   const found=users.find(x=>x.username===u&&x.password===p);
-  btn.disabled=false; btn.textContent='🔑 Sign In';
+  btn.disabled=false; btn.textContent='Sign In';
   if(!found){ document.getElementById('login-err').classList.add('show'); return; }
   document.getElementById('login-err').classList.remove('show');
   currentUser=found;
-  sessionStorage.setItem('olis_user', JSON.stringify({username:found.username,password:found.password}));
+  sessionStorage.setItem('olis_user',JSON.stringify({username:found.username,password:found.password}));
   document.getElementById('page-login').classList.remove('active');
   document.getElementById('page-app').classList.add('active');
   applyPerms(); renderAll();
 };
-window.doLogout = () => {
+window.doLogout = ()=>{
   sessionStorage.removeItem('olis_user');
   currentUser=null;
   document.getElementById('page-app').classList.remove('active');
@@ -584,11 +593,11 @@ window.doLogout = () => {
   window.showLogin();
   document.getElementById('login-user').value='';
   document.getElementById('login-pass').value='';
-  window.showSection('dashboard', document.getElementById('nav-dashboard'));
+  window.showSection('dashboard',document.getElementById('nav-dashboard'));
 };
 
-document.getElementById('login-pass').addEventListener('keydown', e=>{ if(e.key==='Enter') window.doLogin(); });
-document.getElementById('forgot-user').addEventListener('keydown', e=>{ if(e.key==='Enter') window.doForgot(); });
+document.getElementById('login-pass').addEventListener('keydown',e=>{ if(e.key==='Enter') window.doLogin(); });
+document.getElementById('forgot-user').addEventListener('keydown',e=>{ if(e.key==='Enter') window.doForgot(); });
 
 function enforceLoginPage(){
   document.getElementById('page-login').classList.add('active');
@@ -616,21 +625,13 @@ function applyPerms(){
   nu.disabled=!role.canUsers; nu.title=role.canUsers?'':'Director only';
 }
 
-// ── Helpers ─────────────────────────────────────
+// ── Helpers ──────────────────────────────────────────────────
 function st(i){ if(i.qty===0) return 'out'; if(i.qty<=i.min) return 'low'; return 'ok'; }
-function stBadge(i){
-  const s=st(i);
-  if(s==='ok')  return '<span class="badge b-ok">✓ In Stock</span>';
-  if(s==='low') return '<span class="badge b-low">⚠ Low Stock</span>';
-  return '<span class="badge b-out">✕ Out of Stock</span>';
-}
+function stBadge(i){ const s=st(i); if(s==='ok') return '<span class="badge b-ok">✓ In Stock</span>'; if(s==='low') return '<span class="badge b-low">⚠ Low Stock</span>'; return '<span class="badge b-out">✕ Out of Stock</span>'; }
 function stText(i){ if(st(i)==='ok') return 'In Stock'; if(st(i)==='low') return 'Low Stock'; return 'Out of Stock'; }
-function roleBadge(r){
-  if(r==='director') return '<span class="badge b-director">🏅 Director</span>';
-  return '<span class="badge b-admin">🛡 Admin</span>';
-}
+function roleBadge(r){ if(r==='director') return '<span class="badge b-director">👩‍⚖️ Director</span>'; return '<span class="badge b-admin">🛡 Admin</span>'; }
 
-// ── Render ───────────────────────────────────────
+// ── Render ────────────────────────────────────────────────────
 function renderInventory(){
   const fil=currentCat==='all'?inventory:inventory.filter(i=>i.cat===currentCat);
   const canEdit=currentUser&&(ROLES[currentUser.role]||ROLES['admin']).canEdit;
@@ -639,19 +640,21 @@ function renderInventory(){
   tb.innerHTML=fil.map(item=>`<tr>
     <td style="font-weight:600">${item.name}</td>
     <td><span class="badge b-cat">${item.cat}</span></td>
-    <td style="font-weight:600">${item.qty}</td><td>${item.min}</td>
+    <td style="font-weight:600">${item.qty}</td>
+    <td>${item.min}</td>
     <td>${stBadge(item)}</td>
-    <td>${canEdit
-      ?`<button class="act-btn" onclick="window.editQty('${item.id}',1)">＋</button>
-        <button class="act-btn" onclick="window.editQty('${item.id}',-1)" style="margin-left:4px">－</button>
-        <button class="act-btn" onclick="window.removeItem('${item.id}')" style="margin-left:4px">🗑</button>`
+    <td style="white-space:nowrap">${canEdit
+      ?`<button class="act-btn" onclick="window.editQty('${item.id}',1)" title="Add stock">＋</button>
+        <button class="act-btn" onclick="window.editQty('${item.id}',-1)" style="margin-left:3px" title="Remove stock">－</button>
+        <button class="act-btn edit" onclick="window.openEditModal('${item.id}')" style="margin-left:3px" title="Edit item">✏️ Edit</button>
+        <button class="act-btn danger" onclick="window.removeItem('${item.id}')" style="margin-left:3px" title="Delete item">🗑</button>`
       :'<span style="font-size:11px;color:var(--gray-muted)">View only</span>'
     }</td>
   </tr>`).join('');
 }
 function renderDashboard(){
   document.getElementById('m-total').textContent=inventory.reduce((s,i)=>s+i.qty,0);
-  const lows=inventory.filter(i=>st(i)==='low'), outs=inventory.filter(i=>st(i)==='out');
+  const lows=inventory.filter(i=>st(i)==='low'),outs=inventory.filter(i=>st(i)==='out');
   document.getElementById('m-low').textContent=lows.length;
   document.getElementById('m-out').textContent=outs.length;
   const today=new Date().toISOString().slice(0,10);
@@ -690,43 +693,82 @@ function renderUsers(){
     <td style="color:var(--gray-muted);font-size:12px">${u.hint||'—'}</td>
     <td>${roleBadge(u.role)}</td>
     <td>${u.username!=='director'
-      ?`<button class="act-btn" onclick="window.removeUser('${u.id}')">🗑 Remove</button>`
+      ?`<button class="act-btn danger" onclick="window.removeUser('${u.id}')">🗑 Remove</button>`
       :'<span style="font-size:11px;color:var(--gray-muted)">Protected</span>'
     }</td>
   </tr>`).join('');
+  // Restore session once users are loaded
+  if(!currentUser) restoreSession(users);
 }
 function renderAll(){ renderInventory(); renderDashboard(); renderReports(); renderIssueSelect(); }
 
-// ── Actions ──────────────────────────────────────
-window.editQty = async (id,delta) => {
+// ── Inventory Actions ─────────────────────────────────────────
+window.editQty = async (id,delta)=>{
   const item=inventory.find(i=>i.id===id); if(!item) return;
   const nv=item.qty+delta;
   if(nv<0){ alert('Quantity cannot go below 0.'); return; }
   await updateDoc(doc(db,'inventory',id),{qty:nv});
 };
-window.removeItem = async (id) => {
+window.removeItem = async (id)=>{
   if(!confirm('Remove this item from inventory?')) return;
   await deleteDoc(doc(db,'inventory',id));
 };
-window.filterCat = (cat,btn) => {
+window.filterCat = (cat,btn)=>{
   currentCat=cat;
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
   renderInventory();
 };
-window.addItem = async () => {
+
+// Open ADD modal (blank)
+window.openModal = (id)=>{
+  if(id==='add-modal'){
+    document.getElementById('edit-item-id').value='';
+    document.getElementById('add-name').value='';
+    document.getElementById('add-qty').value='10';
+    document.getElementById('add-min').value='5';
+    document.getElementById('add-cat').value='Books';
+    document.getElementById('add-modal-title').innerHTML='Add New Item <button class="close-btn" onclick="window.closeModal(\'add-modal\')">×</button>';
+    document.getElementById('add-modal-btn').textContent='＋ Add to Inventory';
+  }
+  document.getElementById(id).classList.add('open');
+};
+
+// Open EDIT modal (pre-filled)
+window.openEditModal = (id)=>{
+  const item=inventory.find(i=>i.id===id); if(!item) return;
+  document.getElementById('edit-item-id').value=id;
+  document.getElementById('add-name').value=item.name;
+  document.getElementById('add-qty').value=item.qty;
+  document.getElementById('add-min').value=item.min;
+  document.getElementById('add-cat').value=item.cat;
+  document.getElementById('add-modal-title').innerHTML='✏️ Edit Item <button class="close-btn" onclick="window.closeModal(\'add-modal\')">×</button>';
+  document.getElementById('add-modal-btn').textContent='💾 Save Changes';
+  document.getElementById('add-modal').classList.add('open');
+};
+
+// Save (add or update)
+window.saveItem = async ()=>{
+  const editId=document.getElementById('edit-item-id').value;
   const name=document.getElementById('add-name').value.trim();
   const cat=document.getElementById('add-cat').value;
   const qty=parseInt(document.getElementById('add-qty').value)||0;
   const min=parseInt(document.getElementById('add-min').value)||5;
   if(!name){ alert('Please enter an item name.'); return; }
-  await addDoc(collection(db,'inventory'),{name,cat,qty,min});
-  document.getElementById('add-name').value='';
-  document.getElementById('add-qty').value='10';
-  document.getElementById('add-min').value='5';
+  if(editId){
+    // UPDATE existing
+    await updateDoc(doc(db,'inventory',editId),{name,cat,qty,min});
+  } else {
+    // ADD new
+    await addDoc(collection(db,'inventory'),{name,cat,qty,min});
+  }
   window.closeModal('add-modal');
 };
-window.issueItem = async () => {
+
+window.closeModal = id=>document.getElementById(id).classList.remove('open');
+
+// ── Issue Item ─────────────────────────────────────────────────
+window.issueItem = async ()=>{
   if(!currentUser||(ROLES[currentUser.role]||ROLES['admin']).canIssue===false){ alert('You do not have permission to issue items.'); return; }
   const id=document.getElementById('issue-item').value;
   const to=document.getElementById('issue-to').value.trim();
@@ -743,7 +785,9 @@ window.issueItem = async () => {
   document.getElementById('issue-qty').value='1';
   document.getElementById('issue-note').value='';
 };
-window.addUser = async () => {
+
+// ── Users ──────────────────────────────────────────────────────
+window.addUser = async ()=>{
   const name=document.getElementById('new-fullname').value.trim();
   const username=document.getElementById('new-username').value.trim();
   const password=document.getElementById('new-password').value;
@@ -758,24 +802,23 @@ window.addUser = async () => {
   document.getElementById('new-hint').value='';
   window.closeModal('user-modal');
 };
-window.removeUser = async (id) => {
+window.removeUser = async (id)=>{
   if(!confirm('Remove this user account?')) return;
   await deleteDoc(doc(db,'users',id));
 };
 
-// ── Reports ──────────────────────────────────────
-window.openReport = (type) => {
+// ── Reports ─────────────────────────────────────────────────────
+window.openReport = (type)=>{
   const today=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
   const genBy=currentUser?currentUser.name:'System';
   const total=inventory.reduce((s,i)=>s+i.qty,0);
   const lowItems=inventory.filter(i=>st(i)==='low');
   const outItems=inventory.filter(i=>st(i)==='out');
-  const badgeTag=`<img src="${BADGE_SRC}" style="width:48px;height:48px;border-radius:50%;object-fit:contain;background:#fff;padding:2px" alt="OLIS Badge">`;
   const hdr=(title,sub='')=>`
     <div class="print-header">
-      <div style="display:flex;align-items:center;gap:12px">
-        ${badgeTag}
-        <div><div class="print-header-title">OLIS IMS — ${title}</div><div class="print-header-sub">Generated: ${today} | By: ${genBy}${sub}</div></div>
+      <div>
+        <div class="print-header-title">🏫 OSAGYEFO LEADERSHIP IMS — ${title}</div>
+        <div class="print-header-sub">Generated: ${today} | By: ${genBy}${sub}</div>
       </div>
       <div style="text-align:right;font-size:12px;opacity:.85">Inventory Management System<br>© 2026 Official School Report</div>
     </div>`;
@@ -805,24 +848,24 @@ window.openReport = (type) => {
     html=hdr('Issue History Report',` | ${issueLog.length} record(s)`)
       +(issueLog.length
         ?`<div class="stat-row"><div class="stat-box"><div class="stat-box-val">${issueLog.length}</div><div class="stat-box-lbl">Total Issues</div></div><div class="stat-box"><div class="stat-box-val">${issueLog.reduce((s,l)=>s+l.qty,0)}</div><div class="stat-box-lbl">Items Issued</div></div></div>
-          <table class="print-table"><thead><tr><th>#</th><th>Item Name</th><th>Issued To</th><th>Qty</th><th>Date</th><th>Issued By</th><th>Note</th></tr></thead>
+          <table class="print-table"><thead><tr><th>#</th><th>Item</th><th>Issued To</th><th>Qty</th><th>Date</th><th>By</th><th>Note</th></tr></thead>
           <tbody>${issueLog.map((l,n)=>`<tr><td>${n+1}</td><td><strong>${l.name}</strong></td><td>${l.to}</td><td>${l.qty}</td><td>${l.date}</td><td>${l.by||'—'}</td><td>${l.note||'—'}</td></tr>`).join('')}</tbody></table>`
         :'<div class="empty" style="padding:2rem;text-align:center">No issue records found.</div>');
   } else if(type==='category'){
     title='Category Breakdown Report';
     html=hdr('Category Breakdown Report')
-      +`<div class="stat-row">${CATS.map(c=>{const items=inventory.filter(i=>i.cat===c);const ttl=items.reduce((s,i)=>s+i.qty,0);return`<div class="stat-box"><div class="stat-box-val">${ttl}</div><div class="stat-box-lbl">${c}</div></div>`;}).join('')}</div>
-        <table class="print-table"><thead><tr><th>Category</th><th>Items</th><th>Total Qty</th><th>In Stock</th><th>Low Stock</th><th>Out of Stock</th></tr></thead>
-        <tbody>${CATS.map(c=>{const items=inventory.filter(i=>i.cat===c);const ttl=items.reduce((s,i)=>s+i.qty,0);const inS=items.filter(i=>st(i)==='ok').length;const lo=items.filter(i=>st(i)==='low').length;const out=items.filter(i=>st(i)==='out').length;return`<tr><td><strong>${c}</strong></td><td>${items.length}</td><td><strong>${ttl}</strong></td><td style="color:#166534">${inS}</td><td style="color:#92400e">${lo}</td><td style="color:#b91c1c">${out}</td></tr>`;}).join('')}</tbody></table>
-        <div style="margin-top:1.5rem">${CATS.map(c=>{const items=inventory.filter(i=>i.cat===c);if(!items.length)return'';return`<div style="margin-bottom:1.2rem"><div style="font-size:13px;font-weight:700;color:var(--dark);margin-bottom:.5rem;padding:.4rem .7rem;background:var(--orange-light);border-radius:7px;border-left:4px solid var(--orange)">${c} — Detail</div><table class="print-table"><thead><tr><th>#</th><th>Item Name</th><th>Qty</th><th>Min</th><th>Status</th></tr></thead><tbody>${items.map((i,n)=>`<tr><td>${n+1}</td><td>${i.name}</td><td><strong>${i.qty}</strong></td><td>${i.min}</td><td>${stText(i)}</td></tr>`).join('')}</tbody></table></div>`;}).join('')}</div>`;
+      +`<div class="stat-row">${CATS.map(c=>{const items=inventory.filter(i=>i.cat===c);return`<div class="stat-box"><div class="stat-box-val">${items.reduce((s,i)=>s+i.qty,0)}</div><div class="stat-box-lbl">${c}</div></div>`;}).join('')}</div>
+        <table class="print-table"><thead><tr><th>Category</th><th>Items</th><th>Total Qty</th><th>In Stock</th><th>Low</th><th>Out</th></tr></thead>
+        <tbody>${CATS.map(c=>{const items=inventory.filter(i=>i.cat===c);return`<tr><td><strong>${c}</strong></td><td>${items.length}</td><td><strong>${items.reduce((s,i)=>s+i.qty,0)}</strong></td><td style="color:#166534">${items.filter(i=>st(i)==='ok').length}</td><td style="color:#92400e">${items.filter(i=>st(i)==='low').length}</td><td style="color:#b91c1c">${items.filter(i=>st(i)==='out').length}</td></tr>`;}).join('')}</tbody></table>
+        <div style="margin-top:1.5rem">${CATS.map(c=>{const items=inventory.filter(i=>i.cat===c);if(!items.length)return'';return`<div style="margin-bottom:1.2rem"><div style="font-size:13px;font-weight:700;padding:.4rem .7rem;background:var(--orange-light);border-radius:7px;border-left:4px solid var(--orange);margin-bottom:.5rem">${c}</div><table class="print-table"><thead><tr><th>#</th><th>Item</th><th>Qty</th><th>Min</th><th>Status</th></tr></thead><tbody>${items.map((i,n)=>`<tr><td>${n+1}</td><td>${i.name}</td><td><strong>${i.qty}</strong></td><td>${i.min}</td><td>${stText(i)}</td></tr>`).join('')}</tbody></table></div>`;}).join('')}</div>`;
   }
   document.getElementById('report-modal-title').textContent='📄 '+title;
   document.getElementById('report-modal-body').innerHTML=html;
-  window.openModal('report-modal');
+  document.getElementById('report-modal').classList.add('open');
 };
 
-// ── Navigation ────────────────────────────────────
-window.showSection = (id,btn) => {
+// ── Navigation ───────────────────────────────────────────────
+window.showSection = (id,btn)=>{
   if(id==='users'&&currentUser&&!(ROLES[currentUser.role]||ROLES['admin']).canUsers) return;
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
@@ -841,21 +884,18 @@ window.showSection = (id,btn) => {
   if(id==='reports') renderReports();
 };
 
-// ── Modals ────────────────────────────────────────
-window.openModal  = id => document.getElementById(id).classList.add('open');
-window.closeModal = id => document.getElementById(id).classList.remove('open');
+// Click outside modal to close
 document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('open'); }));
 
-// ── Init ──────────────────────────────────────────
+// ── Init ─────────────────────────────────────────────────────
 document.getElementById('issue-date').value=new Date().toISOString().slice(0,10);
 enforceLoginPage();
 (async()=>{
-  await seedUsers();
+  await ensureDefaultUsers();
   await seedInventory();
   listenUsers();
   listenInventory();
   listenIssueLog();
-  restoreSession(users);
 })();
 </script>
 </body>
