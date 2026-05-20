@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OSAGYEFO LEADERSHIP — Inventory Management System</title>
+<title>OLIS IMS — Inventory Management System</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -201,7 +201,7 @@ tr:hover td{background:var(--orange-light)}
           </svg>
         </div>
         <div>
-          <div class="brand-name">OSAGYEFO LEADERSHIP</div>
+          <div class="brand-name">OLIS IMS</div>
           <div class="brand-sub">Inventory Management System</div>
         </div>
       </div>
@@ -226,12 +226,12 @@ tr:hover td{background:var(--orange-light)}
         <div style="text-align:right;margin-bottom:13px;margin-top:-4px">
           <button class="link-btn" onclick="window.showForgot()">Forgot password?</button>
         </div>
-        <button class="main-btn" id="login-btn" onclick="window.doLogin()">Sign In</button>
+        <button class="main-btn" id="login-btn" onclick="window.doLogin()">🔑 Sign In</button>
         <div class="divider"></div>
         <div class="hint">Demo accounts — click to fill:</div>
         <div class="role-pills">
-          <span class="role-pill" onclick="window.fillDemo('director','director123')">👩‍⚖️ Director</span>
-          <span class="role-pill" onclick="window.fillDemo('admin','admin123')">🏡 Admin</span>
+          <span class="role-pill" onclick="window.fillDemo('director','director123')">🏅 Director</span>
+          <span class="role-pill" onclick="window.fillDemo('admin','admin123')">🛡 Admin</span>
         </div>
       </div>
 
@@ -268,7 +268,7 @@ tr:hover td{background:var(--orange-light)}
           </svg>
         </div>
         <div>
-          <div class="logo-title">OSAGYEFO LEADERSHIP</div>
+          <div class="logo-title">OLIS IMS</div>
           <div class="logo-sub">Inventory Management System</div>
         </div>
       </div>
@@ -316,7 +316,7 @@ tr:hover td{background:var(--orange-light)}
         <div class="tabs">
           <button class="tab active" onclick="window.filterCat('all',this)">All Items</button>
           <button class="tab" onclick="window.filterCat('Books',this)">📚 Books</button>
-          <button class="tab" onclick="window.filterCat('School Outfits',this)">👕 School Outfits</button>
+          <button class="tab" onclick="window.filterCat('School Uniforms',this)">👕 School Uniforms</button>
           <button class="tab" onclick="window.filterCat('Stationery',this)">✏️ Stationery</button>
           <button class="tab" onclick="window.filterCat('Sports Equipment',this)">⚽ Sports Equipment</button>
         </div>
@@ -396,7 +396,7 @@ tr:hover td{background:var(--orange-light)}
       </div>
     </div>
 
-    <div class="footer no-print">© 2026 OSAGYEFO LEADERSHIP — Inventory Management System.</div>
+    <div class="footer no-print">© 2026 OLIS IMS — Inventory Management System. All rights reserved.</div>
   </div>
 </div>
 
@@ -405,11 +405,11 @@ tr:hover td{background:var(--orange-light)}
   <div class="modal">
     <div class="modal-title" id="add-modal-title">Add New Item <button class="close-btn" onclick="window.closeModal('add-modal')">×</button></div>
     <div class="form-grid">
-      <div class="fg2 full"><label>Item Name</label><input type="text" id="add-name" placeholder="e.g. English Textbook JHS 1A"></div>
+      <div class="fg2 full"><label>Item Name</label><input type="text" id="add-name" placeholder="e.g. English Textbook JSS1"></div>
       <div class="fg2"><label>Category</label>
         <select id="add-cat">
           <option value="Books">📚 Books</option>
-          <option value="School Outfits">👕 School Outfits</option>
+          <option value="School Uniforms">👕 School Uniforms</option>
           <option value="Stationery">✏️ Stationery</option>
           <option value="Sports Equipment">⚽ Sports Equipment</option>
         </select>
@@ -448,7 +448,7 @@ tr:hover td{background:var(--orange-light)}
     <div class="modal-title no-print">
       <span id="report-modal-title">Report</span>
       <div style="display:flex;gap:8px;align-items:center">
-        <button class="print-btn" onclick="window.print()">🖨 Print</button>
+        <button class="print-btn" onclick="window.print()">🖨 Print / Save PDF</button>
         <button class="close-btn" onclick="window.closeModal('report-modal')">×</button>
       </div>
     </div>
@@ -505,14 +505,14 @@ async function seedInventory(){
   const snap = await getDocs(collection(db,'inventory'));
   if(snap.empty){
     const defaults=[
-      {name:'English Textbook (JHS 1A)',  cat:'Books',           qty:30,min:20},
-      {name:'Mathematics Textbook (Basic 3)',     cat:'Books',           qty:5, min:20},
-      {name:'School Shirt (Size M)',    cat:'School Outfits', qty:40,min:15},
-      {name:'School Trouser (Size M)',  cat:'School Outfits', qty:8, min:15},
+      {name:'English Textbook (JSS1)',  cat:'Books',           qty:30,min:20},
+      {name:'Mathematics Textbook',     cat:'Books',           qty:5, min:20},
+      {name:'School Shirt (Size M)',    cat:'School Uniforms', qty:40,min:15},
+      {name:'School Trouser (Size M)',  cat:'School Uniforms', qty:8, min:15},
       {name:'A4 Exercise Books',        cat:'Stationery',      qty:45,min:20},
-      {name:'Pens (Box)',          cat:'Stationery',      qty:22,min:10},
+      {name:'Biro Pens (Box)',          cat:'Stationery',      qty:22,min:10},
       {name:'Football',                 cat:'Sports Equipment',qty:3, min:5 },
-      {name:'Volleyball',        cat:'Sports Equipment',qty:0, min:4 },
+      {name:'Badminton Rackets',        cat:'Sports Equipment',qty:0, min:4 },
     ];
     for(const item of defaults) await addDoc(collection(db,'inventory'),item);
   }
@@ -557,7 +557,7 @@ window.togglePassword = ()=>{
   const inp=document.getElementById('login-pass');
   const btn=document.getElementById('eye-toggle');
   inp.type=inp.type==='password'?'text':'password';
-  btn.textContent=inp.type==='password'?'👁';
+  btn.textContent=inp.type==='password'?'👁':'🙈';
 };
 window.doForgot = ()=>{
   const u=document.getElementById('forgot-user').value.trim();
@@ -576,7 +576,7 @@ window.doLogin = async ()=>{
   // Wait briefly to ensure listeners have loaded users
   await new Promise(r=>setTimeout(r,500));
   const found=users.find(x=>x.username===u&&x.password===p);
-  btn.disabled=false; btn.textContent='Sign In';
+  btn.disabled=false; btn.textContent='🔑 Sign In';
   if(!found){ document.getElementById('login-err').classList.add('show'); return; }
   document.getElementById('login-err').classList.remove('show');
   currentUser=found;
@@ -629,7 +629,7 @@ function applyPerms(){
 function st(i){ if(i.qty===0) return 'out'; if(i.qty<=i.min) return 'low'; return 'ok'; }
 function stBadge(i){ const s=st(i); if(s==='ok') return '<span class="badge b-ok">✓ In Stock</span>'; if(s==='low') return '<span class="badge b-low">⚠ Low Stock</span>'; return '<span class="badge b-out">✕ Out of Stock</span>'; }
 function stText(i){ if(st(i)==='ok') return 'In Stock'; if(st(i)==='low') return 'Low Stock'; return 'Out of Stock'; }
-function roleBadge(r){ if(r==='director') return '<span class="badge b-director">👩‍⚖️ Director</span>'; return '<span class="badge b-admin">🛡 Admin</span>'; }
+function roleBadge(r){ if(r==='director') return '<span class="badge b-director">🏅 Director</span>'; return '<span class="badge b-admin">🛡 Admin</span>'; }
 
 // ── Render ────────────────────────────────────────────────────
 function renderInventory(){
@@ -817,7 +817,7 @@ window.openReport = (type)=>{
   const hdr=(title,sub='')=>`
     <div class="print-header">
       <div>
-        <div class="print-header-title">🏫 OSAGYEFO LEADERSHIP IMS — ${title}</div>
+        <div class="print-header-title">🏫 OLIS IMS — ${title}</div>
         <div class="print-header-sub">Generated: ${today} | By: ${genBy}${sub}</div>
       </div>
       <div style="text-align:right;font-size:12px;opacity:.85">Inventory Management System<br>© 2026 Official School Report</div>
