@@ -223,7 +223,7 @@ const BADGE_SRC = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1
         </div>
         <button class="main-btn" id="login-btn" onclick="window.doLogin()">🔑 Sign In</button>
         <div class="divider"></div>
-        <div class="hint">Demo accounts — click to fill:</div>
+        <div class="hint">click to fill:</div>
         <div class="role-pills">
           <span class="role-pill" onclick="window.fillDemo('director','director123')">🏅 Director</span>
           <span class="role-pill" onclick="window.fillDemo('admin','admin123')">🛡 Admin</span>
@@ -498,14 +498,14 @@ async function seedInventory(){
   const snap = await getDocs(collection(db,'inventory'));
   if(snap.empty){
     const defaults = [
-      {name:'English Textbook (JHS1A)',   cat:'Books',           qty:30, min:20},
+      {name:'English Textbook (JHS 1A)',   cat:'Books',           qty:30, min:20},
       {name:'Mathematics Textbook',      cat:'Books',           qty:5,  min:20},
       {name:'School Shirt (Size M)',     cat:'School Uniforms', qty:40, min:15},
       {name:'School Trouser (Size M)',   cat:'School Uniforms', qty:8,  min:15},
       {name:'A4 Exercise Books',         cat:'Stationery',      qty:45, min:20},
-      {name:'Biro Pens (Box)',           cat:'Stationery',      qty:22, min:10},
+      {name:'Pens (Box)',           cat:'Stationery',      qty:22, min:10},
       {name:'Football',                  cat:'Sports Equipment',qty:3,  min:5 },
-      {name:'Badminton Rackets',         cat:'Sports Equipment',qty:0,  min:4 },
+      {name:'Wednesday Wear',         cat:'School Uniform',qty:0,  min:4 },
     ];
     for(const item of defaults) await addDoc(collection(db,'inventory'), item);
   }
