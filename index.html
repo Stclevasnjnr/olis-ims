@@ -193,15 +193,15 @@ tr:hover td{background:var(--orange-light)}
         <div class="fg">
           <label>Username</label>
           <div class="inp-wrap">
-            <span class="inp-icon"></span>
-            <input type="text" id="login-user" placeholder="Enter your username">
+            <span class="inp-icon">👤</span>
+            <input type="text" id="login-user" placeholder="Enter username">
           </div>
         </div>
         <div class="fg">
           <label>Password</label>
           <div class="inp-wrap">
-            <span class="inp-icon"></span>
-            <input type="password" id="login-pass" placeholder="Enter your password">
+            <span class="inp-icon">🔒</span>
+            <input type="password" id="login-pass" placeholder="Enter password">
             <button class="eye-btn" id="eye-toggle" onclick="window.togglePassword()" title="Show/hide password">👁</button>
           </div>
         </div>
@@ -210,21 +210,21 @@ tr:hover td{background:var(--orange-light)}
         </div>
         <button class="main-btn" id="login-btn" onclick="window.doLogin()">Sign In</button>
         <div class="divider"></div>
-        <div class="hint">Demo accounts — click to fill:</div>
+        <div class="hint">Click to fill:</div>
         <div class="role-pills">
-          <span class="role-pill" onclick="window.fillDemo('director','director123')">Director</span>
-          <span class="role-pill" onclick="window.fillDemo('admin','admin123')">🛡 Admin</span>
+          <span class="role-pill" onclick="window.fillDemo('director','director123')">👩‍⚖️Director</span>
+          <span class="role-pill" onclick="window.fillDemo('admin','admin123')">🏡Admin</span>
         </div>
       </div>
 
       <div id="forgot-panel" style="display:none">
-        <p style="font-size:13px;color:var(--gray-text);margin-bottom:14px;text-align:center">Enter your username to see your password hint.</p>
+        <p style="font-size:13px;color:var(--gray-text);margin-bottom:14px;text-align:center">Enter username to see your password hint.</p>
         <div class="err-box" id="forgot-err">⚠️ <span id="forgot-err-txt">Username not found.</span></div>
         <div class="ok-box" id="forgot-ok">💡 <span id="forgot-ok-txt"></span></div>
         <div class="fg">
           <label>Username</label>
           <div class="inp-wrap">
-            <span class="inp-icon"></span>
+            <span class="inp-icon">👤</span>
             <input type="text" id="forgot-user" placeholder="Enter your username">
           </div>
         </div>
@@ -272,6 +272,7 @@ tr:hover td{background:var(--orange-light)}
       <button class="nav-btn" id="nav-issue" onclick="window.showSection('issue',this)">➡️ Issue Items</button>
       <button class="nav-btn" id="nav-reports" onclick="window.showSection('reports',this)">📄 Reports</button>
       <button class="nav-btn" id="nav-users" onclick="window.showSection('users',this)">👥 Users</button>
+      <button class="nav-btn" id="nav-account" onclick="window.showSection('account',this)">⚙️ My Account</button>
     </nav>
 
     <!-- DASHBOARD -->
@@ -316,7 +317,7 @@ tr:hover td{background:var(--orange-light)}
 
     <!-- ISSUE ITEMS -->
     <div id="section-issue" class="section">
-      <div id="issue-warn" class="access-banner" style="display:none">You do not have permission to issue items.</div>
+      <div id="issue-warn" class="access-banner" style="display:none">🔒 You do not have permission to issue items.</div>
       <div id="issue-form-wrap" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:start">
         <div class="card">
           <div class="card-hdr"><div class="card-title"><div class="orange-dot"></div>Issue an Item</div></div>
@@ -361,7 +362,7 @@ tr:hover td{background:var(--orange-light)}
 
     <!-- USERS -->
     <div id="section-users" class="section">
-      <div id="users-warn" class="access-banner" style="display:none">Only Directors can manage user accounts.</div>
+      <div id="users-warn" class="access-banner" style="display:none">🔒 Only Directors can manage user accounts.</div>
       <div id="users-panel">
         <div class="card">
           <div class="card-hdr">
@@ -375,6 +376,72 @@ tr:hover td{background:var(--orange-light)}
             </table>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- MY ACCOUNT -->
+    <div id="section-account" class="section">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:start">
+
+        <!-- Change Username -->
+        <div class="card">
+          <div class="card-hdr"><div class="card-title"><div class="orange-dot"></div>Change Username</div></div>
+          <p style="font-size:13px;color:var(--gray-text);margin-bottom:1rem">Update your login username. You will need to use the new username next time you sign in.</p>
+          <div class="ok-box" id="username-ok" style="margin-bottom:12px">✅ <span id="username-ok-txt"></span></div>
+          <div class="err-box" id="username-err" style="margin-bottom:12px">⚠️ <span id="username-err-txt"></span></div>
+          <div class="form-grid">
+            <div class="fg2 full">
+              <label>Current Username</label>
+              <input type="text" id="acc-current-username" placeholder="Your current username" readonly style="background:var(--gray-bg);cursor:not-allowed">
+            </div>
+            <div class="fg2 full">
+              <label>New Username</label>
+              <input type="text" id="acc-new-username" placeholder="Enter new username">
+            </div>
+            <div class="fg2 full">
+              <label>Confirm Current Password</label>
+              <input type="password" id="acc-confirm-pass-username" placeholder="Enter your password to confirm">
+            </div>
+          </div>
+          <button class="add-btn" style="margin-top:1rem;width:100%;justify-content:center" onclick="window.changeUsername()">Save New Username</button>
+        </div>
+
+        <!-- Change Password -->
+        <div class="card">
+          <div class="card-hdr"><div class="card-title"><div class="orange-dot"></div>Change Password</div></div>
+          <p style="font-size:13px;color:var(--gray-text);margin-bottom:1rem">Update your login password. Choose something strong and memorable.</p>
+          <div class="ok-box" id="password-ok" style="margin-bottom:12px">✅ <span id="password-ok-txt"></span></div>
+          <div class="err-box" id="password-err" style="margin-bottom:12px">⚠️ <span id="password-err-txt"></span></div>
+          <div class="form-grid">
+            <div class="fg2 full">
+              <label>Current Password</label>
+              <input type="password" id="acc-current-pass" placeholder="Enter your current password">
+            </div>
+            <div class="fg2 full">
+              <label>New Password</label>
+              <input type="password" id="acc-new-pass" placeholder="Enter new password">
+            </div>
+            <div class="fg2 full">
+              <label>Confirm New Password</label>
+              <input type="password" id="acc-confirm-new-pass" placeholder="Re-enter new password">
+            </div>
+            <div class="fg2 full">
+              <label>Update Password Hint</label>
+              <input type="text" id="acc-new-hint" placeholder="e.g. My favourite food">
+            </div>
+          </div>
+          <button class="add-btn" style="margin-top:1rem;width:100%;justify-content:center" onclick="window.changePassword()">Save New Password</button>
+        </div>
+
+      </div>
+
+      <!-- Account Info Card -->
+      <div class="card" style="margin-top:.5rem">
+        <div class="card-hdr"><div class="card-title"><div class="orange-dot"></div>Account Information</div></div>
+        <table>
+          <thead><tr><th>Field</th><th>Value</th></tr></thead>
+          <tbody id="account-info-body"></tbody>
+        </table>
       </div>
     </div>
 
@@ -614,7 +681,7 @@ function applyPerms(){
 function st(i){ if(i.qty===0) return 'out'; if(i.qty<=i.min) return 'low'; return 'ok'; }
 function stBadge(i){ const s=st(i); if(s==='ok') return '<span class="badge b-ok">✓ In Stock</span>'; if(s==='low') return '<span class="badge b-low">⚠ Low Stock</span>'; return '<span class="badge b-out">✕ Out of Stock</span>'; }
 function stText(i){ if(st(i)==='ok') return 'In Stock'; if(st(i)==='low') return 'Low Stock'; return 'Out of Stock'; }
-function roleBadge(r){ if(r==='director') return '<span class="badge b-director">Director</span>'; return '<span class="badge b-admin">🛡 Admin</span>'; }
+function roleBadge(r){ if(r==='director') return '<span class="badge b-director">👩‍⚖️Director</span>'; return '<span class="badge b-admin">🛡 Admin</span>'; }
 
 // ── Render ────────────────────────────────────────────────────
 function renderInventory(){
@@ -842,6 +909,76 @@ window.openReport = (type)=>{
   document.getElementById('report-modal').classList.add('open');
 };
 
+// ── My Account ────────────────────────────────────────────────
+function renderAccountInfo(){
+  if(!currentUser) return;
+  const role = (ROLES[currentUser.role]||ROLES['admin']).label;
+  document.getElementById('acc-current-username').value = currentUser.username;
+  document.getElementById('account-info-body').innerHTML = `
+    <tr><td style="font-weight:600;width:160px">Full Name</td><td>${currentUser.name}</td></tr>
+    <tr><td style="font-weight:600">Username</td><td>${currentUser.username}</td></tr>
+    <tr><td style="font-weight:600">Role</td><td>${role}</td></tr>
+    <tr><td style="font-weight:600">Password Hint</td><td>${currentUser.hint||'— not set —'}</td></tr>
+  `;
+  // clear all fields and messages
+  ['acc-new-username','acc-confirm-pass-username','acc-current-pass','acc-new-pass','acc-confirm-new-pass','acc-new-hint'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  ['username-ok','username-err','password-ok','password-err'].forEach(id=>document.getElementById(id).classList.remove('show'));
+}
+
+window.changeUsername = async ()=>{
+  const newU   = document.getElementById('acc-new-username').value.trim();
+  const pass   = document.getElementById('acc-confirm-pass-username').value;
+  const okEl   = document.getElementById('username-ok');
+  const errEl  = document.getElementById('username-err');
+  const okTxt  = document.getElementById('username-ok-txt');
+  const errTxt = document.getElementById('username-err-txt');
+  okEl.classList.remove('show'); errEl.classList.remove('show');
+  if(!newU){ errTxt.textContent='Please enter a new username.'; errEl.classList.add('show'); return; }
+  if(!pass){ errTxt.textContent='Please enter your current password to confirm.'; errEl.classList.add('show'); return; }
+  if(pass !== currentUser.password){ errTxt.textContent='Incorrect current password.'; errEl.classList.add('show'); return; }
+  if(newU === currentUser.username){ errTxt.textContent='New username is the same as current.'; errEl.classList.add('show'); return; }
+  if(users.find(u=>u.username===newU && u.id!==currentUser.id)){ errTxt.textContent='That username is already taken by another user.'; errEl.classList.add('show'); return; }
+  await updateDoc(doc(db,'users',currentUser.id),{ username: newU });
+  currentUser.username = newU;
+  sessionStorage.setItem('olis_user', JSON.stringify({username:newU, password:currentUser.password}));
+  okTxt.textContent = 'Username updated to "'+newU+'" successfully!';
+  okEl.classList.add('show');
+  document.getElementById('acc-new-username').value='';
+  document.getElementById('acc-confirm-pass-username').value='';
+  renderAccountInfo();
+  document.getElementById('acc-current-username').value = newU;
+};
+
+window.changePassword = async ()=>{
+  const curP   = document.getElementById('acc-current-pass').value;
+  const newP   = document.getElementById('acc-new-pass').value;
+  const conP   = document.getElementById('acc-confirm-new-pass').value;
+  const hint   = document.getElementById('acc-new-hint').value.trim();
+  const okEl   = document.getElementById('password-ok');
+  const errEl  = document.getElementById('password-err');
+  const okTxt  = document.getElementById('password-ok-txt');
+  const errTxt = document.getElementById('password-err-txt');
+  okEl.classList.remove('show'); errEl.classList.remove('show');
+  if(!curP){ errTxt.textContent='Please enter your current password.'; errEl.classList.add('show'); return; }
+  if(curP !== currentUser.password){ errTxt.textContent='Current password is incorrect.'; errEl.classList.add('show'); return; }
+  if(!newP){ errTxt.textContent='Please enter a new password.'; errEl.classList.add('show'); return; }
+  if(newP.length < 6){ errTxt.textContent='New password must be at least 6 characters.'; errEl.classList.add('show'); return; }
+  if(newP !== conP){ errTxt.textContent='New passwords do not match.'; errEl.classList.add('show'); return; }
+  const updates = { password: newP };
+  if(hint) updates.hint = hint;
+  await updateDoc(doc(db,'users',currentUser.id), updates);
+  currentUser.password = newP;
+  if(hint) currentUser.hint = hint;
+  sessionStorage.setItem('olis_user', JSON.stringify({username:currentUser.username, password:newP}));
+  okTxt.textContent = 'Password changed successfully!';
+  okEl.classList.add('show');
+  document.getElementById('acc-current-pass').value='';
+  document.getElementById('acc-new-pass').value='';
+  document.getElementById('acc-confirm-new-pass').value='';
+  document.getElementById('acc-new-hint').value='';
+  renderAccountInfo();
+};
+
 // ── Navigation ────────────────────────────────────────────────
 window.showSection = (id,btn)=>{
   if(id==='users'&&currentUser&&!(ROLES[currentUser.role]||ROLES['admin']).canUsers) return;
@@ -860,6 +997,7 @@ window.showSection = (id,btn)=>{
     document.getElementById('users-panel').style.display=c?'block':'none';
   }
   if(id==='reports') renderReports();
+  if(id==='account') renderAccountInfo();
 };
 
 document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('open'); }));
