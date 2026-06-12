@@ -155,6 +155,26 @@ tr:hover td{background:var(--orange-light)}
 .empty{text-align:center;padding:2.5rem;color:var(--gray-muted);font-size:13px}
 .section-title{font-size:16px;font-weight:700;color:var(--dark);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
 .footer{text-align:center;padding:1.5rem;font-size:12px;color:var(--gray-muted)}
+/* SEARCH */
+.search-wrap{position:relative;flex:1;min-width:200px;max-width:340px}
+.search-wrap input{width:100%;padding:8px 12px 8px 36px;border:1.5px solid var(--gray-border);border-radius:9px;font-size:13px;background:var(--white);color:var(--dark);outline:none;transition:border-color .15s}
+.search-wrap input:focus{border-color:var(--orange)}
+.search-wrap .s-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;color:var(--gray-muted)}
+.search-clear{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--gray-muted);display:none;padding:0;line-height:1}
+.search-clear:hover{color:var(--dark)}
+/* SUB-TABS */
+.sub-tabs-wrap{background:var(--orange-light);border:1.5px solid var(--orange-mid);border-radius:10px;padding:.6rem .8rem;margin-bottom:1rem;display:none}
+.sub-tabs-wrap.visible{display:block}
+.sub-tabs-label{font-size:11px;font-weight:600;color:var(--orange-dark);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.5rem}
+.sub-tabs{display:flex;gap:5px;flex-wrap:wrap}
+.sub-tab{border:1.5px solid var(--orange-mid);background:var(--white);padding:5px 13px;border-radius:8px;font-size:12px;cursor:pointer;color:var(--orange-dark);font-weight:500}
+.sub-tab.active{background:var(--orange);color:var(--white);border-color:var(--orange);font-weight:600}
+/* HOUSE SUB-TABS */
+.house-tabs-wrap{background:#fff8f0;border:1.5px solid var(--orange-mid);border-radius:10px;padding:.6rem .8rem;margin-bottom:1rem;display:none}
+.house-tabs-wrap.visible{display:block}
+.house-tabs-label{font-size:11px;font-weight:600;color:var(--orange-dark);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.5rem}
+/* ITEM COUNT BADGE */
+.count-badge{display:inline-flex;align-items:center;justify-content:center;background:var(--orange);color:#fff;border-radius:100px;font-size:10px;font-weight:700;padding:1px 6px;margin-left:5px;min-width:18px}
 @media(max-width:600px){
   .form-grid{grid-template-columns:1fr}.fg2.full{grid-column:1}
   #issue-form-wrap{grid-template-columns:1fr !important}
@@ -194,31 +214,31 @@ tr:hover td{background:var(--orange-light)}
           <label>Username</label>
           <div class="inp-wrap">
             <span class="inp-icon">👤</span>
-            <input type="text" id="login-user" placeholder="Enter username">
+            <input type="text" id="login-user" placeholder="Enter your username">
           </div>
         </div>
         <div class="fg">
           <label>Password</label>
           <div class="inp-wrap">
             <span class="inp-icon">🔒</span>
-            <input type="password" id="login-pass" placeholder="Enter password">
+            <input type="password" id="login-pass" placeholder="Enter your password">
             <button class="eye-btn" id="eye-toggle" onclick="window.togglePassword()" title="Show/hide password">👁</button>
           </div>
         </div>
         <div style="text-align:right;margin-bottom:13px;margin-top:-4px">
           <button class="link-btn" onclick="window.showForgot()">Forgot password?</button>
         </div>
-        <button class="main-btn" id="login-btn" onclick="window.doLogin()">Sign In</button>
+        <button class="main-btn" id="login-btn" onclick="window.doLogin()">🔑 Sign In</button>
         <div class="divider"></div>
-        <div class="hint">Click to fill:</div>
+        <div class="hint">Demo accounts — click to fill:</div>
         <div class="role-pills">
-          <span class="role-pill" onclick="window.fillDemo('director','director123')">👩‍⚖️Director</span>
-          <span class="role-pill" onclick="window.fillDemo('admin','admin123')">🏡Admin</span>
+          <span class="role-pill" onclick="window.fillDemo('director','director123')">🏅 Director</span>
+          <span class="role-pill" onclick="window.fillDemo('admin','admin123')">🛡 Admin</span>
         </div>
       </div>
 
       <div id="forgot-panel" style="display:none">
-        <p style="font-size:13px;color:var(--gray-text);margin-bottom:14px;text-align:center">Enter username to see your password hint.</p>
+        <p style="font-size:13px;color:var(--gray-text);margin-bottom:14px;text-align:center">Enter your username to see your password hint.</p>
         <div class="err-box" id="forgot-err">⚠️ <span id="forgot-err-txt">Username not found.</span></div>
         <div class="ok-box" id="forgot-ok">💡 <span id="forgot-ok-txt"></span></div>
         <div class="fg">
@@ -262,7 +282,7 @@ tr:hover td{background:var(--orange-light)}
             <div class="user-role-lbl" id="user-role-label">—</div>
           </div>
         </div>
-        <button class="logout-btn" onclick="window.doLogout()">Sign Out</button>
+        <button class="logout-btn" onclick="window.doLogout()">🚪 Sign Out</button>
       </div>
     </div>
 
@@ -295,21 +315,72 @@ tr:hover td{background:var(--orange-light)}
 
     <!-- INVENTORY -->
     <div id="section-inventory" class="section">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;gap:10px;flex-wrap:wrap">
-        <div class="tabs">
-          <button class="tab active" onclick="window.filterCat('all',this)">All Items</button>
-          <button class="tab" onclick="window.filterCat('Books',this)">📚 Books</button>
-          <button class="tab" onclick="window.filterCat('School Outfits',this)">👕 School Outfits</button>
-          <button class="tab" onclick="window.filterCat('Stationery',this)">✏️ Stationery</button>
-          <button class="tab" onclick="window.filterCat('Sports Equipment',this)">⚽ Sports Equipment</button>
+
+      <!-- Top row: tabs + search + add button -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;gap:10px;flex-wrap:wrap">
+        <div class="tabs" id="main-tabs">
+          <button class="tab active" onclick="window.filterMain('all',this)">All Items</button>
+          <button class="tab" onclick="window.filterMain('Books',this)">📚 Books</button>
+          <button class="tab" onclick="window.filterMain('School Outfits',this)">👕 School Outfits</button>
+          <button class="tab" onclick="window.filterMain('Stationery',this)">✏️ Stationery</button>
+          <button class="tab" onclick="window.filterMain('Sports Equipment',this)">⚽ Sports Equipment</button>
         </div>
-        <button class="add-btn" id="add-item-btn" onclick="window.openModal('add-modal')">＋ Add Item</button>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <div class="search-wrap">
+            <span class="s-icon">🔍</span>
+            <input type="text" id="inv-search" placeholder="Search items..." oninput="window.doSearch()">
+            <button class="search-clear" id="search-clear-btn" onclick="window.clearSearch()" title="Clear search">✕</button>
+          </div>
+          <button class="add-btn" id="add-item-btn" onclick="window.openModal('add-modal')">＋ Add Item</button>
+        </div>
       </div>
+
+      <!-- Books sub-tabs -->
+      <div class="sub-tabs-wrap" id="books-sub-wrap">
+        <div class="sub-tabs-label">📚 Books — Select Type</div>
+        <div class="sub-tabs" id="books-sub-tabs">
+          <button class="sub-tab active" onclick="window.filterSub('all-books',this,'books')">All Books</button>
+          <button class="sub-tab" onclick="window.filterSub('Exercise Books',this,'books')">📓 Exercise Books</button>
+          <button class="sub-tab" onclick="window.filterSub('Textbooks',this,'books')">📖 Textbooks</button>
+          <button class="sub-tab" onclick="window.filterSub('Teachers Handbook',this,'books')">📋 Teachers Handbook</button>
+          <button class="sub-tab" onclick="window.filterSub('Workbooks',this,'books')">📝 Workbooks</button>
+        </div>
+      </div>
+
+      <!-- School Outfits sub-tabs -->
+      <div class="sub-tabs-wrap" id="outfits-sub-wrap">
+        <div class="sub-tabs-label">👕 School Outfits — Select Type</div>
+        <div class="sub-tabs" id="outfits-sub-tabs">
+          <button class="sub-tab active" onclick="window.filterSub('all-outfits',this,'outfits')">All Outfits</button>
+          <button class="sub-tab" onclick="window.filterSub('P.E Kit',this,'outfits')">🏃 P.E Kit</button>
+          <button class="sub-tab" onclick="window.filterSub('Friday Wear',this,'outfits')">✨ Friday Wear</button>
+          <button class="sub-tab" onclick="window.filterSub('Fabric',this,'outfits')">🧵 Fabric</button>
+          <button class="sub-tab" onclick="window.filterSub('Wednesday Wear',this,'outfits')">📅 Wednesday Wear</button>
+          <button class="sub-tab" onclick="window.filterSub('OLIS Branded T-Shirt',this,'outfits')">🎽 OLIS Branded T-Shirt</button>
+        </div>
+      </div>
+
+      <!-- P.E Kit house sub-tabs (shows only when P.E Kit is selected) -->
+      <div class="house-tabs-wrap" id="house-tabs-wrap">
+        <div class="house-tabs-label">🏃 P.E Kit — Select House</div>
+        <div class="sub-tabs" id="house-sub-tabs">
+          <button class="sub-tab active" onclick="window.filterHouse('all-houses',this)">All Houses</button>
+          <button class="sub-tab" onclick="window.filterHouse('Mother Theresa',this)">🔵 Mother Theresa</button>
+          <button class="sub-tab" onclick="window.filterHouse('Osagyefo',this)">🟡 Osagyefo</button>
+          <button class="sub-tab" onclick="window.filterHouse('Ghandi',this)">🟢 Ghandi</button>
+          <button class="sub-tab" onclick="window.filterHouse('Mandela',this)">🔴 Mandela</button>
+          <button class="sub-tab" onclick="window.filterHouse('Churchill',this)">🟠 Churchill</button>
+        </div>
+      </div>
+
+      <!-- Search results info -->
+      <div id="search-info" style="display:none;font-size:12px;color:var(--gray-text);margin-bottom:.75rem;padding:6px 10px;background:var(--orange-light);border-radius:8px;border:1px solid var(--orange-mid)"></div>
+
       <div class="card">
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Item Name</th><th>Category</th><th>Quantity</th><th>Min Stock</th><th>Status</th><th>Actions</th></tr></thead>
-            <tbody id="inv-body"><tr><td colspan="6"><div class="loading"><div class="spinner"></div><br>Loading...</div></td></tr></tbody>
+            <thead><tr><th>Item Name</th><th>Category</th><th>Sub-Category</th><th>Quantity</th><th>Min Stock</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="inv-body"><tr><td colspan="7"><div class="loading"><div class="spinner"></div><br>Loading...</div></td></tr></tbody>
           </table>
         </div>
       </div>
@@ -403,7 +474,7 @@ tr:hover td{background:var(--orange-light)}
               <input type="password" id="acc-confirm-pass-username" placeholder="Enter your password to confirm">
             </div>
           </div>
-          <button class="add-btn" style="margin-top:1rem;width:100%;justify-content:center" onclick="window.changeUsername()">Save New Username</button>
+          <button class="add-btn" style="margin-top:1rem;width:100%;justify-content:center" onclick="window.changeUsername()">💾 Save New Username</button>
         </div>
 
         <!-- Change Password -->
@@ -430,7 +501,7 @@ tr:hover td{background:var(--orange-light)}
               <input type="text" id="acc-new-hint" placeholder="e.g. My favourite food">
             </div>
           </div>
-          <button class="add-btn" style="margin-top:1rem;width:100%;justify-content:center" onclick="window.changePassword()">Save New Password</button>
+          <button class="add-btn" style="margin-top:1rem;width:100%;justify-content:center" onclick="window.changePassword()">🔒 Save New Password</button>
         </div>
 
       </div>
@@ -455,16 +526,33 @@ tr:hover td{background:var(--orange-light)}
     <div class="modal-title" id="add-modal-title">Add New Item <button class="close-btn" onclick="window.closeModal('add-modal')">×</button></div>
     <div class="form-grid">
       <div class="fg2 full"><label>Item Name</label><input type="text" id="add-name" placeholder="e.g. English Textbook JHS 1A"></div>
-      <div class="fg2"><label>Category</label>
-        <select id="add-cat">
+      <div class="fg2 full"><label>Main Category</label>
+        <select id="add-cat" onchange="window.updateSubCatOptions()">
           <option value="Books">📚 Books</option>
           <option value="School Outfits">👕 School Outfits</option>
           <option value="Stationery">✏️ Stationery</option>
           <option value="Sports Equipment">⚽ Sports Equipment</option>
         </select>
       </div>
+      <div class="fg2 full" id="sub-cat-wrap">
+        <label>Sub-Category</label>
+        <select id="add-subcat" onchange="window.updateHouseOptions()">
+          <option value="">— none —</option>
+        </select>
+      </div>
+      <div class="fg2 full" id="house-wrap" style="display:none">
+        <label>House (P.E Kit)</label>
+        <select id="add-house">
+          <option value="">— All Houses —</option>
+          <option value="Mother Theresa">🔵 Mother Theresa</option>
+          <option value="Osagyefo">🟡 Osagyefo</option>
+          <option value="Ghandi">🟢 Ghandi</option>
+          <option value="Mandela">🔴 Mandela</option>
+          <option value="Churchill">🟠 Churchill</option>
+        </select>
+      </div>
       <div class="fg2"><label>Quantity</label><input type="number" id="add-qty" value="10" min="0"></div>
-      <div class="fg2 full"><label>Minimum Stock Level</label><input type="number" id="add-min" value="5" min="0"></div>
+      <div class="fg2"><label>Min Stock Level</label><input type="number" id="add-min" value="5" min="0"></div>
     </div>
     <input type="hidden" id="edit-item-id" value="">
     <button class="add-btn" id="add-modal-btn" style="margin-top:1.1rem;width:100%;justify-content:center" onclick="window.saveItem()">＋ Add to Inventory</button>
@@ -537,6 +625,10 @@ const ROLES = {
   admin:    { label:'Admin',    canEdit:true, canIssue:true, canUsers:false },
 };
 const CATS = ['Books','School Outfits','Stationery','Sports Equipment'];
+const ALL_SUBCATS = {
+  'Books':          ['Exercise Books','Textbooks','Teachers Handbook','Workbooks'],
+  'School Outfits': ['P.E Kit','Friday Wear','Fabric','Wednesday Wear','OLIS Branded T-Shirt'],
+};
 
 // ── Seed ────────────────────────────────────────────────────
 async function ensureDefaultUsers(){
@@ -607,7 +699,7 @@ window.togglePassword = ()=>{
   const inp=document.getElementById('login-pass');
   const btn=document.getElementById('eye-toggle');
   inp.type = inp.type==='password' ? 'text' : 'password';
-  btn.textContent = inp.type==='password' ? '👁' : '👁';
+  btn.textContent = inp.type==='password' ? '👁' : '🙈';
 };
 
 window.doForgot = ()=>{
@@ -627,7 +719,7 @@ window.doLogin = async ()=>{
   btn.disabled=true; btn.textContent='Signing in...';
   await new Promise(r=>setTimeout(r,500));
   const found=users.find(x=>x.username===u&&x.password===p);
-  btn.disabled=false; btn.textContent='Sign In';
+  btn.disabled=false; btn.textContent='🔑 Sign In';
   if(!found){ document.getElementById('login-err').classList.add('show'); return; }
   document.getElementById('login-err').classList.remove('show');
   currentUser=found;
@@ -681,7 +773,7 @@ function applyPerms(){
 function st(i){ if(i.qty===0) return 'out'; if(i.qty<=i.min) return 'low'; return 'ok'; }
 function stBadge(i){ const s=st(i); if(s==='ok') return '<span class="badge b-ok">✓ In Stock</span>'; if(s==='low') return '<span class="badge b-low">⚠ Low Stock</span>'; return '<span class="badge b-out">✕ Out of Stock</span>'; }
 function stText(i){ if(st(i)==='ok') return 'In Stock'; if(st(i)==='low') return 'Low Stock'; return 'Out of Stock'; }
-function roleBadge(r){ if(r==='director') return '<span class="badge b-director">👩‍⚖️Director</span>'; return '<span class="badge b-admin">🛡 Admin</span>'; }
+function roleBadge(r){ if(r==='director') return '<span class="badge b-director">🏅 Director</span>'; return '<span class="badge b-admin">🛡 Admin</span>'; }
 
 // ── Render ────────────────────────────────────────────────────
 function renderInventory(){
@@ -731,7 +823,10 @@ function renderReports(){
 }
 function renderIssueSelect(){
   const sel=document.getElementById('issue-item');
-  sel.innerHTML='<option value="">— select item —</option>'+inventory.filter(i=>i.qty>0).map(i=>`<option value="${i.id}">${i.name} (${i.qty} available)</option>`).join('');
+  sel.innerHTML='<option value="">— select item —</option>'+inventory.filter(i=>i.qty>0).map(i=>{
+    const detail=[i.subcat,i.house].filter(Boolean).join(' · ');
+    return `<option value="${i.id}">${i.name}${detail?' ('+detail+')':''} — ${i.qty} available</option>`;
+  }).join('');
 }
 function renderIssueLogPanel(){
   const el=document.getElementById('issue-log');
@@ -755,6 +850,162 @@ function renderUsers(){
   if(!currentUser) restoreSession(users);
 }
 function renderAll(){ renderInventory(); renderDashboard(); renderReports(); renderIssueSelect(); }
+
+// ── Category Structure ────────────────────────────────────────
+const SUB_CATS = {
+  'Books':          ['Exercise Books','Textbooks','Teachers Handbook','Workbooks'],
+  'School Outfits': ['P.E Kit','Friday Wear','Fabric','Wednesday Wear','OLIS Branded T-Shirt'],
+  'Stationery':     [],
+  'Sports Equipment':[]
+};
+const HOUSES = ['Mother Theresa','Osagyefo','Ghandi','Mandela','Churchill'];
+
+// Active filter state
+let activeMain  = 'all';   // main category tab
+let activeSub   = 'all';   // sub-category (all-books / all-outfits / specific)
+let activeHouse = 'all';   // house (all-houses / specific)
+let searchQuery = '';
+
+// Build filtered inventory list based on all active filters
+function getFiltered(){
+  let list = [...inventory];
+  // Main category
+  if(activeMain !== 'all') list = list.filter(i=>i.cat === activeMain);
+  // Sub-category
+  if(activeSub !== 'all' && activeSub !== 'all-books' && activeSub !== 'all-outfits'){
+    list = list.filter(i=>i.subcat === activeSub);
+  }
+  // House (only for P.E Kit)
+  if(activeSub === 'P.E Kit' && activeHouse !== 'all' && activeHouse !== 'all-houses'){
+    list = list.filter(i=>i.house === activeHouse);
+  }
+  // Search
+  if(searchQuery){
+    const q = searchQuery.toLowerCase();
+    list = list.filter(i=>
+      (i.name||'').toLowerCase().includes(q) ||
+      (i.cat||'').toLowerCase().includes(q) ||
+      (i.subcat||'').toLowerCase().includes(q) ||
+      (i.house||'').toLowerCase().includes(q)
+    );
+  }
+  return list;
+}
+
+// Main category tab click
+window.filterMain = (cat, btn) => {
+  activeMain  = cat;
+  activeSub   = 'all';
+  activeHouse = 'all';
+  document.querySelectorAll('#main-tabs .tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  // Show/hide sub-tab panels
+  const booksWrap   = document.getElementById('books-sub-wrap');
+  const outfitsWrap = document.getElementById('outfits-sub-wrap');
+  const houseWrap   = document.getElementById('house-tabs-wrap');
+  booksWrap.classList.remove('visible');
+  outfitsWrap.classList.remove('visible');
+  houseWrap.classList.remove('visible');
+  if(cat === 'Books'){
+    booksWrap.classList.add('visible');
+    document.querySelectorAll('#books-sub-tabs .sub-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelector('#books-sub-tabs .sub-tab').classList.add('active');
+  }
+  if(cat === 'School Outfits'){
+    outfitsWrap.classList.add('visible');
+    document.querySelectorAll('#outfits-sub-tabs .sub-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelector('#outfits-sub-tabs .sub-tab').classList.add('active');
+  }
+  renderInventory();
+};
+
+// Sub-category tab click
+window.filterSub = (sub, btn, group) => {
+  activeSub   = sub;
+  activeHouse = 'all';
+  const tabGroup = group === 'books' ? '#books-sub-tabs' : '#outfits-sub-tabs';
+  document.querySelectorAll(tabGroup+' .sub-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const houseWrap = document.getElementById('house-tabs-wrap');
+  if(sub === 'P.E Kit'){
+    houseWrap.classList.add('visible');
+    document.querySelectorAll('#house-sub-tabs .sub-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelector('#house-sub-tabs .sub-tab').classList.add('active');
+  } else {
+    houseWrap.classList.remove('visible');
+  }
+  renderInventory();
+};
+
+// House tab click
+window.filterHouse = (house, btn) => {
+  activeHouse = house;
+  document.querySelectorAll('#house-sub-tabs .sub-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderInventory();
+};
+
+// Search
+window.doSearch = () => {
+  searchQuery = document.getElementById('inv-search').value.trim();
+  const clearBtn = document.getElementById('search-clear-btn');
+  clearBtn.style.display = searchQuery ? 'block' : 'none';
+  renderInventory();
+};
+window.clearSearch = () => {
+  searchQuery = '';
+  document.getElementById('inv-search').value = '';
+  document.getElementById('search-clear-btn').style.display = 'none';
+  renderInventory();
+};
+
+// Sub-cat options in modal
+window.updateSubCatOptions = () => {
+  const cat   = document.getElementById('add-cat').value;
+  const sel   = document.getElementById('add-subcat');
+  const subs  = SUB_CATS[cat] || [];
+  const wrap  = document.getElementById('sub-cat-wrap');
+  sel.innerHTML = '<option value="">— none —</option>' + subs.map(s=>`<option value="${s}">${s}</option>`).join('');
+  wrap.style.display = subs.length ? 'flex' : 'none';
+  document.getElementById('house-wrap').style.display = 'none';
+};
+window.updateHouseOptions = () => {
+  const sub = document.getElementById('add-subcat').value;
+  document.getElementById('house-wrap').style.display = sub === 'P.E Kit' ? 'flex' : 'none';
+};
+
+function renderInventory(){
+  const fil    = getFiltered();
+  const canEdit= currentUser && (ROLES[currentUser.role]||ROLES['admin']).canEdit;
+  const tb     = document.getElementById('inv-body');
+  // Search info bar
+  const infoEl = document.getElementById('search-info');
+  if(searchQuery){
+    infoEl.style.display='block';
+    infoEl.textContent = `🔍 Found ${fil.length} result${fil.length!==1?'s':''} for "${searchQuery}"`;
+  } else {
+    infoEl.style.display='none';
+  }
+  if(!fil.length){
+    tb.innerHTML=`<tr><td colspan="7"><div class="empty">${searchQuery?'No items match your search.':'No items in this category yet.'}</div></td></tr>`;
+    return;
+  }
+  tb.innerHTML = fil.map(item=>`<tr>
+    <td style="font-weight:600">${item.name}</td>
+    <td><span class="badge b-cat">${item.cat}</span></td>
+    <td style="font-size:12px;color:var(--gray-text)">${item.subcat ? (item.house ? item.subcat+' · '+item.house : item.subcat) : '—'}</td>
+    <td style="font-weight:600">${item.qty}</td>
+    <td>${item.min}</td>
+    <td>${stBadge(item)}</td>
+    <td style="white-space:nowrap">${canEdit
+      ?`<button class="act-btn" onclick="window.editQty('${item.id}',1)" title="Add stock">＋</button>
+        <button class="act-btn" onclick="window.editQty('${item.id}',-1)" style="margin-left:3px" title="Remove stock">－</button>
+        <button class="act-btn edit" onclick="window.openEditModal('${item.id}')" style="margin-left:3px">✏️ Edit</button>
+        <button class="act-btn danger" onclick="window.removeItem('${item.id}')" style="margin-left:3px">🗑</button>`
+      :'<span style="font-size:11px;color:var(--gray-muted)">View only</span>'
+    }</td>
+  </tr>`).join('');
+}
 
 // ── Inventory Actions ─────────────────────────────────────────
 window.editQty = async (id,delta)=>{
@@ -782,6 +1033,7 @@ window.openModal = (id)=>{
     document.getElementById('add-cat').value='Books';
     document.getElementById('add-modal-title').innerHTML='Add New Item <button class="close-btn" onclick="window.closeModal(\'add-modal\')">×</button>';
     document.getElementById('add-modal-btn').textContent='＋ Add to Inventory';
+    window.updateSubCatOptions();
   }
   document.getElementById(id).classList.add('open');
 };
@@ -792,21 +1044,28 @@ window.openEditModal = (id)=>{
   document.getElementById('add-qty').value=item.qty;
   document.getElementById('add-min').value=item.min;
   document.getElementById('add-cat').value=item.cat;
+  window.updateSubCatOptions();
+  document.getElementById('add-subcat').value=item.subcat||'';
+  window.updateHouseOptions();
+  if(item.house) document.getElementById('add-house').value=item.house;
   document.getElementById('add-modal-title').innerHTML='✏️ Edit Item <button class="close-btn" onclick="window.closeModal(\'add-modal\')">×</button>';
   document.getElementById('add-modal-btn').textContent='💾 Save Changes';
   document.getElementById('add-modal').classList.add('open');
 };
 window.saveItem = async ()=>{
-  const editId=document.getElementById('edit-item-id').value;
-  const name=document.getElementById('add-name').value.trim();
-  const cat=document.getElementById('add-cat').value;
-  const qty=parseInt(document.getElementById('add-qty').value)||0;
-  const min=parseInt(document.getElementById('add-min').value)||5;
+  const editId  = document.getElementById('edit-item-id').value;
+  const name    = document.getElementById('add-name').value.trim();
+  const cat     = document.getElementById('add-cat').value;
+  const subcat  = document.getElementById('add-subcat').value||'';
+  const house   = (subcat==='P.E Kit' ? document.getElementById('add-house').value : '')||'';
+  const qty     = parseInt(document.getElementById('add-qty').value)||0;
+  const min     = parseInt(document.getElementById('add-min').value)||5;
   if(!name){ alert('Please enter an item name.'); return; }
+  const data = {name,cat,subcat,house,qty,min};
   if(editId){
-    await updateDoc(doc(db,'inventory',editId),{name,cat,qty,min});
+    await updateDoc(doc(db,'inventory',editId), data);
   } else {
-    await addDoc(collection(db,'inventory'),{name,cat,qty,min});
+    await addDoc(collection(db,'inventory'), data);
   }
   window.closeModal('add-modal');
 };
@@ -877,16 +1136,16 @@ window.openReport = (type)=>{
           <div class="stat-box"><div class="stat-box-val" style="color:#92400e">${lowItems.length}</div><div class="stat-box-lbl">Low Stock</div></div>
           <div class="stat-box"><div class="stat-box-val" style="color:#b91c1c">${outItems.length}</div><div class="stat-box-lbl">Out of Stock</div></div>
         </div>
-        <table class="print-table"><thead><tr><th>#</th><th>Item Name</th><th>Category</th><th>Quantity</th><th>Min Stock</th><th>Status</th></tr></thead>
-        <tbody>${inventory.map((i,n)=>`<tr><td>${n+1}</td><td><strong>${i.name}</strong></td><td>${i.cat}</td><td><strong>${i.qty}</strong></td><td>${i.min}</td><td>${stText(i)}</td></tr>`).join('')}</tbody></table>`;
+        <table class="print-table"><thead><tr><th>#</th><th>Item Name</th><th>Category</th><th>Sub-Category</th><th>Quantity</th><th>Min Stock</th><th>Status</th></tr></thead>
+        <tbody>${inventory.map((i,n)=>`<tr><td>${n+1}</td><td><strong>${i.name}</strong></td><td>${i.cat}</td><td>${[i.subcat,i.house].filter(Boolean).join(' · ')||'—'}</td><td><strong>${i.qty}</strong></td><td>${i.min}</td><td>${stText(i)}</td></tr>`).join('')}</tbody></table>`;
   } else if(type==='lowstock'){
     title='Low Stock Report';
     const problem=[...outItems,...lowItems];
     html=hdr('Low Stock Report',` | ${problem.length} item(s) need attention`)
       +(problem.length
         ?`<div class="stat-row"><div class="stat-box"><div class="stat-box-val" style="color:#b91c1c">${outItems.length}</div><div class="stat-box-lbl">Out of Stock</div></div><div class="stat-box"><div class="stat-box-val" style="color:#92400e">${lowItems.length}</div><div class="stat-box-lbl">Low Stock</div></div></div>
-          <table class="print-table"><thead><tr><th>#</th><th>Item Name</th><th>Category</th><th>Current Qty</th><th>Min Stock</th><th>Suggested Reorder</th><th>Status</th></tr></thead>
-          <tbody>${problem.map((i,n)=>`<tr><td>${n+1}</td><td><strong>${i.name}</strong></td><td>${i.cat}</td><td style="color:#b91c1c;font-weight:700">${i.qty}</td><td>${i.min}</td><td style="color:var(--orange-dark);font-weight:600">${Math.max(0,i.min*2-i.qty)}</td><td>${stText(i)}</td></tr>`).join('')}</tbody></table>`
+          <table class="print-table"><thead><tr><th>#</th><th>Item Name</th><th>Category</th><th>Sub-Category</th><th>Current Qty</th><th>Min Stock</th><th>Suggested Reorder</th><th>Status</th></tr></thead>
+          <tbody>${problem.map((i,n)=>`<tr><td>${n+1}</td><td><strong>${i.name}</strong></td><td>${i.cat}</td><td>${[i.subcat,i.house].filter(Boolean).join(' · ')||'—'}</td><td style="color:#b91c1c;font-weight:700">${i.qty}</td><td>${i.min}</td><td style="color:var(--orange-dark);font-weight:600">${Math.max(0,i.min*2-i.qty)}</td><td>${stText(i)}</td></tr>`).join('')}</tbody></table>`
         :'<div class="empty" style="padding:2rem;text-align:center;color:#166534;font-size:15px;font-weight:600">✅ All items are sufficiently stocked!</div>');
   } else if(type==='issues'){
     title='Issue History Report';
@@ -902,7 +1161,31 @@ window.openReport = (type)=>{
       +`<div class="stat-row">${CATS.map(c=>{const items=inventory.filter(i=>i.cat===c);return`<div class="stat-box"><div class="stat-box-val">${items.reduce((s,i)=>s+i.qty,0)}</div><div class="stat-box-lbl">${c}</div></div>`;}).join('')}</div>
         <table class="print-table"><thead><tr><th>Category</th><th>Items</th><th>Total Qty</th><th>In Stock</th><th>Low</th><th>Out</th></tr></thead>
         <tbody>${CATS.map(c=>{const items=inventory.filter(i=>i.cat===c);return`<tr><td><strong>${c}</strong></td><td>${items.length}</td><td><strong>${items.reduce((s,i)=>s+i.qty,0)}</strong></td><td style="color:#166534">${items.filter(i=>st(i)==='ok').length}</td><td style="color:#92400e">${items.filter(i=>st(i)==='low').length}</td><td style="color:#b91c1c">${items.filter(i=>st(i)==='out').length}</td></tr>`;}).join('')}</tbody></table>
-        <div style="margin-top:1.5rem">${CATS.map(c=>{const items=inventory.filter(i=>i.cat===c);if(!items.length)return'';return`<div style="margin-bottom:1.2rem"><div style="font-size:13px;font-weight:700;padding:.4rem .7rem;background:var(--orange-light);border-radius:7px;border-left:4px solid var(--orange);margin-bottom:.5rem">${c}</div><table class="print-table"><thead><tr><th>#</th><th>Item</th><th>Qty</th><th>Min</th><th>Status</th></tr></thead><tbody>${items.map((i,n)=>`<tr><td>${n+1}</td><td>${i.name}</td><td><strong>${i.qty}</strong></td><td>${i.min}</td><td>${stText(i)}</td></tr>`).join('')}</tbody></table></div>`;}).join('')}</div>`;
+        <div style="margin-top:1.5rem">${CATS.map(c=>{
+          const items=inventory.filter(i=>i.cat===c);
+          if(!items.length) return '';
+          const subs = ALL_SUBCATS[c]||[];
+          // group by subcat if subcats exist
+          const subGroups = subs.length
+            ? subs.map(s=>{
+                const si = items.filter(i=>i.subcat===s);
+                if(!si.length) return '';
+                // P.E Kit: show house breakdown
+                const houseRows = (s==='P.E Kit')
+                  ? HOUSES.map(h=>{const hi=si.filter(i=>i.house===h);return hi.length?`<tr style="background:#fff8f0"><td style="padding-left:24px;font-size:12px">└ ${h}</td><td>${hi.length}</td><td><strong>${hi.reduce((a,i)=>a+i.qty,0)}</strong></td><td style="color:#166534">${hi.filter(i=>st(i)==='ok').length}</td><td style="color:#92400e">${hi.filter(i=>st(i)==='low').length}</td><td style="color:#b91c1c">${hi.filter(i=>st(i)==='out').length}</td></tr>`;}).filter(Boolean).join('')
+                  : '';
+                return `<tr style="font-weight:600"><td style="padding-left:12px">· ${s}</td><td>${si.length}</td><td><strong>${si.reduce((a,i)=>a+i.qty,0)}</strong></td><td style="color:#166534">${si.filter(i=>st(i)==='ok').length}</td><td style="color:#92400e">${si.filter(i=>st(i)==='low').length}</td><td style="color:#b91c1c">${si.filter(i=>st(i)==='out').length}</td></tr>${houseRows}`;
+              }).filter(Boolean).join('')
+            : '';
+          return `<div style="margin-bottom:1.2rem">
+            <div style="font-size:13px;font-weight:700;padding:.4rem .7rem;background:var(--orange-light);border-radius:7px;border-left:4px solid var(--orange);margin-bottom:.5rem">${c}</div>
+            <table class="print-table"><thead><tr><th>Sub-Category</th><th>Items</th><th>Total Qty</th><th>In Stock</th><th>Low</th><th>Out</th></tr></thead>
+            <tbody>
+              ${subGroups}
+              ${!subs.length ? items.map((i,n)=>`<tr><td>${i.name}</td><td>1</td><td><strong>${i.qty}</strong></td><td style="color:#166534">${st(i)==='ok'?1:0}</td><td style="color:#92400e">${st(i)==='low'?1:0}</td><td style="color:#b91c1c">${st(i)==='out'?1:0}</td></tr>`).join('') : ''}
+            </tbody></table>
+          </div>`;
+        }).join('')}</div>`;
   }
   document.getElementById('report-modal-title').textContent='📄 '+title;
   document.getElementById('report-modal-body').innerHTML=html;
