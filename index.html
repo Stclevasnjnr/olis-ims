@@ -776,27 +776,6 @@ function stText(i){ if(st(i)==='ok') return 'In Stock'; if(st(i)==='low') return
 function roleBadge(r){ if(r==='director') return '<span class="badge b-director">🏅 Director</span>'; return '<span class="badge b-admin">🛡 Admin</span>'; }
 
 // ── Render ────────────────────────────────────────────────────
-function renderInventory(){
-  const fil=currentCat==='all'?inventory:inventory.filter(i=>i.cat===currentCat);
-  const canEdit=currentUser&&(ROLES[currentUser.role]||ROLES['admin']).canEdit;
-  const tb=document.getElementById('inv-body');
-  if(!fil.length){ tb.innerHTML='<tr><td colspan="6"><div class="empty">No items in this category yet.</div></td></tr>'; return; }
-  tb.innerHTML=fil.map(item=>`<tr>
-    <td style="font-weight:600">${item.name}</td>
-    <td><span class="badge b-cat">${item.cat}</span></td>
-    <td style="font-weight:600">${item.qty}</td>
-    <td>${item.min}</td>
-    <td>${stBadge(item)}</td>
-    <td style="white-space:nowrap">${canEdit
-      ?`<button class="act-btn" onclick="window.editQty('${item.id}',1)" title="Add stock">＋</button>
-        <button class="act-btn" onclick="window.editQty('${item.id}',-1)" style="margin-left:3px" title="Remove stock">－</button>
-        <button class="act-btn edit" onclick="window.openEditModal('${item.id}')" style="margin-left:3px" title="Edit item">✏️ Edit</button>
-        <button class="act-btn danger" onclick="window.removeItem('${item.id}')" style="margin-left:3px" title="Delete item">🗑</button>`
-      :'<span style="font-size:11px;color:var(--gray-muted)">View only</span>'
-    }</td>
-  </tr>`).join('');
-}
-
 function renderDashboard(){
   document.getElementById('m-total').textContent=inventory.reduce((s,i)=>s+i.qty,0);
   const lows=inventory.filter(i=>st(i)==='low'),outs=inventory.filter(i=>st(i)==='out');
@@ -1017,12 +996,6 @@ window.editQty = async (id,delta)=>{
 window.removeItem = async (id)=>{
   if(!confirm('Remove this item from inventory?')) return;
   await deleteDoc(doc(db,'inventory',id));
-};
-window.filterCat = (cat,btn)=>{
-  currentCat=cat;
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');
-  renderInventory();
 };
 window.openModal = (id)=>{
   if(id==='add-modal'){
