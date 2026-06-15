@@ -1172,7 +1172,7 @@ window.openReport = (type)=>{
                 if(!si.length) return '';
                 // P.E Kit: show house breakdown
                 const houseRows = (s==='P.E Kit')
-                  ? HOUSES.map(h=>{const hi=si.filter(i=>i.house===h);return hi.length?`<tr style="background:#fff8f0"><td style="padding-left:24px;font-size:12px">└ ${h}</td><td>${hi.length}</td><td><strong>${hi.reduce((a,i)=>a+i.qty,0)}</strong></td><td style="color:#166534">${hi.filter(i=>st(i)==='ok').length}</td><td style="color:#92400e">${hi.filter(i=>st(i)==='low').length}</td><td style="color:#b91c1c">${hi.filter(i=>st(i)==='out').length}</td></tr>`;}).filter(Boolean).join('')
+                  ? HOUSES.map(h=>{const hi=si.filter(i=>i.house===h);return hi.length?`<tr style="background:#fff8f0"><td style="padding-left:24px;font-size:12px">└ ${h}</td><td>${hi.length}</td><td><strong>${hi.reduce((a,i)=>a+i.qty,0)}</strong></td><td style="color:#166534">${hi.filter(i=>st(i)==='ok').length}</td><td style="color:#92400e">${hi.filter(i=>st(i)==='low').length}</td><td style="color:#b91c1c">${hi.filter(i=>st(i)==='out').length}</td></tr>`:'';}).filter(Boolean).join('')
                   : '';
                 return `<tr style="font-weight:600"><td style="padding-left:12px">· ${s}</td><td>${si.length}</td><td><strong>${si.reduce((a,i)=>a+i.qty,0)}</strong></td><td style="color:#166534">${si.filter(i=>st(i)==='ok').length}</td><td style="color:#92400e">${si.filter(i=>st(i)==='low').length}</td><td style="color:#b91c1c">${si.filter(i=>st(i)==='out').length}</td></tr>${houseRows}`;
               }).filter(Boolean).join('')
