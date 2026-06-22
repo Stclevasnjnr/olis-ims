@@ -213,27 +213,27 @@ tr:hover td{background:var(--orange-light)}
         <div class="fg">
           <label>Username</label>
           <div class="inp-wrap">
-            <span class="inp-icon">👤</span>
-            <input type="text" id="login-user" placeholder="Enter your username">
+            <span class="inp-icon"></span>
+            <input type="text" id="login-user" placeholder="Enter username">
           </div>
         </div>
         <div class="fg">
           <label>Password</label>
           <div class="inp-wrap">
-            <span class="inp-icon">🔒</span>
-            <input type="password" id="login-pass" placeholder="Enter your password">
-            <button class="eye-btn" id="eye-toggle" onclick="window.togglePassword()" title="Show/hide password">👁</button>
+            <span class="inp-icon"></span>
+            <input type="password" id="login-pass" placeholder="Enter password">
+            <button class="eye-btn" id="eye-toggle" onclick="window.togglePassword()" title="Show/hide password"></button>
           </div>
         </div>
         <div style="text-align:right;margin-bottom:13px;margin-top:-4px">
           <button class="link-btn" onclick="window.showForgot()">Forgot password?</button>
         </div>
-        <button class="main-btn" id="login-btn" onclick="window.doLogin()">🔑 Sign In</button>
+        <button class="main-btn" id="login-btn" onclick="window.doLogin()">Sign In</button>
         <div class="divider"></div>
-        <div class="hint">Demo accounts — click to fill:</div>
+        <div class="hint"></div>
         <div class="role-pills">
-          <span class="role-pill" onclick="window.fillDemo('director','director123')">🏅 Director</span>
-          <span class="role-pill" onclick="window.fillDemo('admin','admin123')">🛡 Admin</span>
+          <span class="role-pill" onclick="window.fillDemo('director','director123')">Director</span>
+          <span class="role-pill" onclick="window.fillDemo('admin','admin123')">Admin</span>
         </div>
       </div>
 
@@ -244,7 +244,7 @@ tr:hover td{background:var(--orange-light)}
         <div class="fg">
           <label>Username</label>
           <div class="inp-wrap">
-            <span class="inp-icon">👤</span>
+            <span class="inp-icon"></span>
             <input type="text" id="forgot-user" placeholder="Enter your username">
           </div>
         </div>
@@ -254,7 +254,7 @@ tr:hover td{background:var(--orange-light)}
         </div>
       </div>
     </div>
-    <p style="color:rgba(255,255,255,0.6);font-size:11px;margin-top:1.5rem">© 2026 OSAGYEFO LEADERSHIP IMS · Powered by Firebase</p>
+    <p style="color:rgba(255,255,255,0.6);font-size:11px;margin-top:1.5rem">© 2026 OSAGYEFO LEADERSHIP IMS</p>
   </div>
 </div>
 
@@ -282,7 +282,7 @@ tr:hover td{background:var(--orange-light)}
             <div class="user-role-lbl" id="user-role-label">—</div>
           </div>
         </div>
-        <button class="logout-btn" onclick="window.doLogout()">🚪 Sign Out</button>
+        <button class="logout-btn" onclick="window.doLogout()">Sign Out</button>
       </div>
     </div>
 
@@ -366,10 +366,10 @@ tr:hover td{background:var(--orange-light)}
         <div class="sub-tabs" id="house-sub-tabs">
           <button class="sub-tab active" onclick="window.filterHouse('all-houses',this)">All Houses</button>
           <button class="sub-tab" onclick="window.filterHouse('Mother Theresa',this)">🔵 Mother Theresa</button>
-          <button class="sub-tab" onclick="window.filterHouse('Osagyefo',this)">🟡 Osagyefo</button>
-          <button class="sub-tab" onclick="window.filterHouse('Ghandi',this)">🟢 Ghandi</button>
-          <button class="sub-tab" onclick="window.filterHouse('Mandela',this)">🔴 Mandela</button>
-          <button class="sub-tab" onclick="window.filterHouse('Churchill',this)">🟠 Churchill</button>
+          <button class="sub-tab" onclick="window.filterHouse('Osagyefo',this)">🟠 Osagyefo</button>
+          <button class="sub-tab" onclick="window.filterHouse('Ghandi',this)">🟡 Ghandi</button>
+          <button class="sub-tab" onclick="window.filterHouse('Mandela',this)">🟢 Mandela</button>
+          <button class="sub-tab" onclick="window.filterHouse('Churchill',this)">🔴 Churchill</button>
         </div>
       </div>
 
@@ -394,10 +394,10 @@ tr:hover td{background:var(--orange-light)}
           <div class="card-hdr"><div class="card-title"><div class="orange-dot"></div>Issue an Item</div></div>
           <div class="form-grid">
             <div class="fg2 full"><label>Item</label><select id="issue-item"><option value="">— select item —</option></select></div>
-            <div class="fg2 full"><label>Issued To (name or class)</label><input type="text" id="issue-to" placeholder="e.g. John Mensah / Class 3B"></div>
+            <div class="fg2 full"><label>Issued To (name or class)</label><input type="text" id="issue-to" placeholder="e.g. Dominic Baidoo / Class 3B"></div>
             <div class="fg2"><label>Quantity</label><input type="number" id="issue-qty" value="1" min="1"></div>
             <div class="fg2"><label>Date</label><input type="date" id="issue-date"></div>
-            <div class="fg2 full"><label>Note (optional)</label><input type="text" id="issue-note" placeholder="e.g. return by Friday"></div>
+            <div class="fg2 full"><label>Note (optional)</label><input type="text" id="issue-note" placeholder="e.g. Wanted 5 but got 3pcs"></div>
           </div>
           <button class="add-btn" style="margin-top:1rem;width:100%;justify-content:center" onclick="window.issueItem()">✔ Confirm Issue</button>
         </div>
@@ -471,10 +471,10 @@ tr:hover td{background:var(--orange-light)}
             </div>
             <div class="fg2 full">
               <label>Confirm Current Password</label>
-              <input type="password" id="acc-confirm-pass-username" placeholder="Enter your password to confirm">
+              <input type="password" id="acc-confirm-pass-username" placeholder="Enter password to confirm">
             </div>
           </div>
-          <button class="add-btn" style="margin-top:1rem;width:100%;justify-content:center" onclick="window.changeUsername()">💾 Save New Username</button>
+          <button class="add-btn" style="margin-top:1rem;width:100%;justify-content:center" onclick="window.changeUsername()">Save New Username</button>
         </div>
 
         <!-- Change Password -->
@@ -501,7 +501,7 @@ tr:hover td{background:var(--orange-light)}
               <input type="text" id="acc-new-hint" placeholder="e.g. My favourite food">
             </div>
           </div>
-          <button class="add-btn" style="margin-top:1rem;width:100%;justify-content:center" onclick="window.changePassword()">🔒 Save New Password</button>
+          <button class="add-btn" style="margin-top:1rem;width:100%;justify-content:center" onclick="window.changePassword()">Save New Password</button>
         </div>
 
       </div>
@@ -545,10 +545,10 @@ tr:hover td{background:var(--orange-light)}
         <select id="add-house">
           <option value="">— All Houses —</option>
           <option value="Mother Theresa">🔵 Mother Theresa</option>
-          <option value="Osagyefo">🟡 Osagyefo</option>
-          <option value="Ghandi">🟢 Ghandi</option>
-          <option value="Mandela">🔴 Mandela</option>
-          <option value="Churchill">🟠 Churchill</option>
+          <option value="Osagyefo">🟠 Osagyefo</option>
+          <option value="Ghandi">🟡 Ghandi</option>
+          <option value="Mandela">🟢 Mandela</option>
+          <option value="Churchill">🔴 Churchill</option>
         </select>
       </div>
       <div class="fg2"><label>Quantity</label><input type="number" id="add-qty" value="10" min="0"></div>
@@ -699,7 +699,7 @@ window.togglePassword = ()=>{
   const inp=document.getElementById('login-pass');
   const btn=document.getElementById('eye-toggle');
   inp.type = inp.type==='password' ? 'text' : 'password';
-  btn.textContent = inp.type==='password' ? '👁' : '🙈';
+  btn.textContent = inp.type==='password' ? '👁';
 };
 
 window.doForgot = ()=>{
@@ -719,7 +719,7 @@ window.doLogin = async ()=>{
   btn.disabled=true; btn.textContent='Signing in...';
   await new Promise(r=>setTimeout(r,500));
   const found=users.find(x=>x.username===u&&x.password===p);
-  btn.disabled=false; btn.textContent='🔑 Sign In';
+  btn.disabled=false; btn.textContent='Sign In';
   if(!found){ document.getElementById('login-err').classList.add('show'); return; }
   document.getElementById('login-err').classList.remove('show');
   currentUser=found;
@@ -773,7 +773,7 @@ function applyPerms(){
 function st(i){ if(i.qty===0) return 'out'; if(i.qty<=i.min) return 'low'; return 'ok'; }
 function stBadge(i){ const s=st(i); if(s==='ok') return '<span class="badge b-ok">✓ In Stock</span>'; if(s==='low') return '<span class="badge b-low">⚠ Low Stock</span>'; return '<span class="badge b-out">✕ Out of Stock</span>'; }
 function stText(i){ if(st(i)==='ok') return 'In Stock'; if(st(i)==='low') return 'Low Stock'; return 'Out of Stock'; }
-function roleBadge(r){ if(r==='director') return '<span class="badge b-director">🏅 Director</span>'; return '<span class="badge b-admin">🛡 Admin</span>'; }
+function roleBadge(r){ if(r==='director') return '<span class="badge b-director">Director</span>'; return '<span class="badge b-admin">Admin</span>'; }
 
 // ── Render ────────────────────────────────────────────────────
 function renderDashboard(){
